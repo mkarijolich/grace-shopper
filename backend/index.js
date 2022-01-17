@@ -1,3 +1,6 @@
+const dotenv = require("dotenv")
+dotenv.config()
+
 // This is the Web Server
 const express = require('express');
 const server = express();

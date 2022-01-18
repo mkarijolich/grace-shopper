@@ -1,3 +1,5 @@
+//entry point
+
 const dotenv = require("dotenv")
 dotenv.config()
 
@@ -40,5 +42,4 @@ server.listen(PORT, async () => {
   }
 });
 
-//entry point
-//
+

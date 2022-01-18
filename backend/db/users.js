@@ -9,7 +9,7 @@ async function _hashPassword(password) {
 }
 
 
-async function createUser({username,password}){
+async function createUser({username,password,accountType}){//customer or admin
     console.error("Creating user", username, password);
     try{
 

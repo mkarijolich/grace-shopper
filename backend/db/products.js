@@ -40,6 +40,8 @@ async function createProduct({ name, detail, category, price, linksArray }){
             const links = await Promise.all(linksArray.map(addPictureLinksToProduct));
 
             product.links = links;
+        } else{
+            product.links = null;
         }
 
         return product;

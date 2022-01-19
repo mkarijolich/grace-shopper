@@ -19,6 +19,9 @@ apiRouter.use('/users', usersRouter);
 // const orderProductsRouter = require('./order_products');
 // apiRouter.use('/order_products', orderProductsRouter);
 
+// const adminRouter = require('./admin');
+// adminRouter.use('/admin',adminRouter);
+
 apiRouter.use((error, req, res, next) => {
   const status = error.status ? error.status : 500
 

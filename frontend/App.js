@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import {
   getSomething
-} from '../api';
+} from './src/api';
 
 const App = () => {
   const [message, setMessage] = useState('');

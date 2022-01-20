@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import {
   App
-} from './components';
+} from './src/components';
 
 ReactDOM.render(
   <App />,

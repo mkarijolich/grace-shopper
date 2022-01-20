@@ -6,6 +6,12 @@ const apiRouter = require('express').Router();
 //   });
 // });
 
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET  = 'nevertell' } = process.env;
+
+const userMiddleware = require('./middleware/userMiddleware')
+apiRouter.use(userMiddleware);
+
 // attach other routers from files in this api directory (users, activities...)
 const usersRouter = require('./users');
 apiRouter.use('/users', usersRouter);
@@ -18,6 +24,9 @@ apiRouter.use('/users', usersRouter);
 
 // const orderProductsRouter = require('./order_products');
 // apiRouter.use('/order_products', orderProductsRouter);
+
+const adminRouter = require('./admin');
+apiRouter.use('/admin',adminRouter);
 
 apiRouter.use((error, req, res, next) => {
   const status = error.status ? error.status : 500

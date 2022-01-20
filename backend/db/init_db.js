@@ -13,6 +13,8 @@ async function buildTables() {
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS users;
 `);
+
+    //added account_type on usertable
     // build tables in correct order
     //IMPORTANT IMPORTANT IMPORTANT: in product table i added the column price, and in order table i added the column total
     await client.query(`
@@ -26,7 +28,8 @@ async function buildTables() {
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       username VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL
+      password VARCHAR(255) NOT NULL,
+      account_type VARCHAR(255) NOT NULL
     );
 
     CREATE TABLE orders(
@@ -50,10 +53,10 @@ async function populateInitialData() {
   try {
     // create useful starting data
     const testUsers = [
-      { username: 'ChrisG', password: 'password1' },
-      { username: 'Maki', password: 'password2' },
-      { username: 'Darshan', password: 'password3' },
-      { username: 'ChrisA', password: 'password4'}
+      { username: 'ChrisG', password: 'password1', account_type:'CUSTOMER' },
+      { username: 'Maki', password: 'password2', account_type:'ADMIN'  },
+      { username: 'Darshan', password: 'password3' ,account_type:'CUSTOMER' },
+      { username: 'ChrisA', password: 'password4',account_type:'ADMIN' }
     ]
 
     //still have to make createUser

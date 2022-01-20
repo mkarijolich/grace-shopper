@@ -1,14 +1,14 @@
 const express = require('express');
 
-const requireUser = (req, res,next) => {
+const requireAdmin = (req, res,next) => {
     console.log(req)
     
-    if(!req.user) {
+    if(!req.user || req.user.account_type !== "ADMIN") {
     //if the req.user hasn't been set(which means a correct auth token wasn't sent in with the request)
     //send error
         next({
-            name:"MissingUserError",
-            message: "You must be logged in to perform this action",
+            name:"AdminError",
+            message: "You are not permitted to perform this action",
             status: 401
         });
     }
@@ -16,4 +16,4 @@ const requireUser = (req, res,next) => {
     next();
 }
 
-module.exports = requireUser;
+module.exports = requireAdmin;

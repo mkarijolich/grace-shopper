@@ -1,7 +1,7 @@
 const express = require('express');
 
 const requireUser = (req, res,next) => {
-    // console.log(req)
+    console.log(req)
     
     if(!req.user) {
     //if the req.user hasn't been set(which means a correct auth token wasn't sent in with the request)

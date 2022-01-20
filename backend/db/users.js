@@ -9,18 +9,18 @@ async function _hashPassword(password) {
 }
 
 
-async function createUser({username,password,accountType}){//customer or admin
+async function createUser({username,password,account_type}){//customer or admin
     console.error("Creating user", username, password);
     try{
 
         const hashedPassword = await _hashPassword(password);
         
         const { rows:[user] } = await client.query(`
-            INSERT INTO users(username,password)
-            VALUES($1, $2)
+            INSERT INTO users(username,password,account_type)
+            VALUES($1, $2, $3)
             ON CONFLICT (username) DO NOTHING
             RETURNING *;
-        `,[username, hashedPassword]);
+        `,[username, hashedPassword, account_type]);
         
         delete user.password;
         return user;

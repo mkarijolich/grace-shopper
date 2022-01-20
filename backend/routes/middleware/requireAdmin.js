@@ -1,9 +1,9 @@
 const express = require('express');
 
 const requireAdmin = (req, res,next) => {
-    // console.log(req)
+    console.log(req)
     
-    if(!req.admin) {
+    if(!req.user || req.user.account_type !== "ADMIN") {
     //if the req.user hasn't been set(which means a correct auth token wasn't sent in with the request)
     //send error
         next({

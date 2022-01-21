@@ -8,13 +8,14 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+    DROP TABLE IF EXISTS cart_products;
     DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS users;
 `);
 
-    //added account_type on usertable
+    //added account_type on userstable
     // build tables in correct order
     //IMPORTANT IMPORTANT IMPORTANT: in product table i added the column price, and in order table i added the column total
     await client.query(`
@@ -42,6 +43,13 @@ async function buildTables() {
       id SERIAL PRIMARY KEY,
       "productId" INTEGER REFERENCES products(id),
       "orderId" INTEGER REFERENCES orders(id)
+    );
+
+    CREATE TABLE cart_products(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "productId" INTEGER REFERENCES products(id),
+      quantity INTEGER
     );
   `);
   } catch (error) {

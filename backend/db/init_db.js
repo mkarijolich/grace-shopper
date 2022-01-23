@@ -44,10 +44,10 @@ async function buildTables() {
     );
 
     CREATE TABLE products_pictures(
-      id SERIAL NUMBER PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       link varchar(900) NOT NULL,
       "productId" INTEGER REFERENCES products(id)
-    )
+    );
 
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
@@ -104,7 +104,7 @@ async function populateInitialData() {
       { name: "Ceiling Fan", detail: "A fan on the ceiling", category: "Home Goods", price: 75, linksArray: ["https://images.thdstatic.com/productImages/62152035-b1f7-496d-8f66-9d024ddc6d2e/svn/bronze-hampton-bay-ceiling-fans-with-lights-52051-e1_600.jpg"] },
       { name: "Door Handle", detail: "A handle on a door", category: "Essentials", price: 10, linksArray: ["https://www.busterandpunch.com/us/wp-content/uploads/sites/2/2020/03/2.-BusterPunch_Door_Handle_Front_Fixed_Brass-scaled.jpg", "https://www.busterandpunch.com/us/wp-content/uploads/sites/2/2021/04/Door-handle_Fixed_Linear_Welders-Black_A2_Web_Square-scaled.jpg"] },
       { name: "72in TV", detail: "A really big TV", category: "Electronics", price: 775, linksArray: [] },
-      { name: "Analogue Clock", detail: "A clock that is analogue}", category: "Home Goods", price: 120, linksArray: ["https://www.clockway.com/mm5/img/CHM/CHM-611132-L1.jpg"] }
+      { name: "Analogue Clock", detail: "A clock that is analogue", category: "Home Goods", price: 120, linksArray: ["https://www.clockway.com/mm5/img/CHM/CHM-611132-L1.jpg"] }
     ]
 
     console.log('Populating products table with seed data...');

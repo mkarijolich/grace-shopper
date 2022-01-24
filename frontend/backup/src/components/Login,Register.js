@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Container, Typography, TextField, IconButton, Button } from "@mui/material";
 import { register, login } from "../api/index";
+const jwt = require("jsonwebtoken");
 
 const Home = (props) => {
     const { user, setUser } = props;
@@ -21,13 +22,17 @@ const Home = (props) => {
     
         else if (response.token) {
           const token = response.token;
+          const tokenBody = jwt.decode(token);
+
           console.log(token);
           if (!token) {
             return;
           }
           const user = {
             token: token,
-            username: username,
+            id: tokenBody.id,
+            username: tokenBody.username,
+            isAdmin: tokenBody.isAdmin
           };
           
           setUser(user);

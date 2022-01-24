@@ -31,13 +31,13 @@ async function createProduct({ name, detail, category, price, linksArray }){
 
         const { rows: [ product] } = await client.query(`
             INSERT INTO products(name,detail,category,price)
-            VALUES($1, $2, $3)
+            VALUES($1, $2, $3, $4)
             RETURNING *;
         `,[ name, detail, category, price ]);
 
         if( linksArray.length > 0 ){
             console.log("Creating product successful. Adding href links for pictures: ", linksArray);
-            const links = await Promise.all(linksArray.map(addPictureLinksToProduct));
+            const links = await Promise.all(linksArray.map((item) => addPictureLinksToProduct(item, product.id)));
 
             product.links = links;
         } else{
@@ -53,13 +53,13 @@ async function createProduct({ name, detail, category, price, linksArray }){
 async function addPictureLinksToProduct( link, id ){
     console.log("Product with id ", id, " adding this link: ", link);
     try{
-        const { rows: [ link ] } = await client.query(`
+        const { rows: [ result ] } = await client.query(`
         INSERT INTO products_pictures(link,"productId")
         VALUES($1, $2)
         RETURNING *;
     `,[ link, id ]);
 
-    return link.link;
+    return result.link;
     } catch(error){
         throw error;
     }

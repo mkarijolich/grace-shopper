@@ -1,5 +1,3 @@
-//entry point
-
 const dotenv = require("dotenv")
 dotenv.config()
 
@@ -10,6 +8,9 @@ const server = express();
 // create logs for everything
 const morgan = require('morgan');
 server.use(morgan('dev'));
+
+const cors = require('cors')
+server.use(cors())
 
 // handle application/json requests
 server.use(express.json());
@@ -22,9 +23,9 @@ server.use(express.static(path.join(__dirname, 'build')));
 server.use('/api', require('./routes'));
 
 // by default serve up the react app if we don't recognize the route
-// server.use((req, res, next) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'))
-// });
+server.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+});
 
 // bring in the DB connection
 const client = require('./db/client');
@@ -42,4 +43,5 @@ server.listen(PORT, async () => {
   }
 });
 
-
+//entry point
+//

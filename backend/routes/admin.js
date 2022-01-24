@@ -44,4 +44,21 @@ adminRouter.post("/register", requireAdmin, async (req, res,next) => {
   }
 });
 
+adminRouter.delete('/:userId', requireAdmin, async(res,req,next) => {
+
+  try{
+    const _user = await getUserByUsername(username);
+
+
+
+
+    
+  } catch ({ name,message }) {
+    console.log(error);
+    next({ name,message });
+  }
+
+})
+
+
 module.exports = adminRouter;

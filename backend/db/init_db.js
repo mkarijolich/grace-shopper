@@ -59,13 +59,15 @@ async function buildTables() {
     CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
       "userId" INTEGER REFERENCES users(id),
+      status VARCHAR(255) NOT NULL,
       total INTEGER
     );
 
     CREATE TABLE order_products(
       id SERIAL PRIMARY KEY,
       "productId" INTEGER REFERENCES products(id),
-      "orderId" INTEGER REFERENCES orders(id)
+      "orderId" INTEGER REFERENCES orders(id),
+      quantity INTEGER NOT NULL
     );
 
     CREATE TABLE cart_products(

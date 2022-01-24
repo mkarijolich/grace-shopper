@@ -39,6 +39,7 @@ usersRouter.post("/register", async (req, res, next) => {
       {
         id: user.id,
         username,
+        account_type: user.account_type
       },
       JWT_SECRET,
       {
@@ -82,6 +83,7 @@ usersRouter.post("/login", async (req, res, next) => {
         // create userData obj and store id and username
         id: user.id,
         username: user.username,
+        account_type: user.account_type
       };
       const token = jwt.sign(userData, JWT_SECRET);
 

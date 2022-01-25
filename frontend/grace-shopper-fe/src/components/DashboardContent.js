@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from "react";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -18,10 +19,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
-
+import { fetchAllOrders } from "../api/index";
+import OrderList from './OrderList';
+import UserList from './UserList';
 
 
 const drawerWidth = 240;
@@ -74,9 +74,32 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
+  const [orders, setOrders] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  
+
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  // useEffect(() => {
+  //   Promise.all([fetchAllProducts()]).then(([productsFromAPI]) => {
+  //     setProducts(productsFromAPI);
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    Promise.all( 
+      [
+        fetchAllOrders()
+      ]
+    )
+    .then(([ordersFromAPI]) => {
+      setOrders(ordersFromAPI);
+      // console.log(routinesFromAPI)
+    })
+  }, [])
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -149,8 +172,9 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
+              {/* orderlist */}
+              
+              <Grid item xs={12}>
                 <Paper
                   sx={{
                     p: 2,
@@ -159,11 +183,12 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  {/* <Chart /> */}
+                  <OrderList orders={orders}/>
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
+
+              {/* userlist */}
+              <Grid item xs={12} >
                 <Paper
                   sx={{
                     p: 2,
@@ -172,13 +197,15 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  {/* <Deposits /> */}
+                  <UserList users={users}/>
                 </Paper>
               </Grid>
+              
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   {/* <Orders /> */}
+                  
                 </Paper>
               </Grid>
             </Grid>

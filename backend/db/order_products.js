@@ -1,14 +1,23 @@
+const { getProductsById } = require("./products");
 const client = require("./client");
 
-async function getProductByOrderId(id) {
+async function getProductsByOrderId(orderId) {
   try {
-    const { rows: [productById] } = await client.query(`
-      SELECT *
+    const { rows: products } = await client.query(`
+      SELECT 
+        products.id,
+        products.name,
+        products.detail,
+        products.category,
+        order_products.quantity,
+        order_products."unitPrice"
       FROM order_products
-      WHERE id=$1
-    `,[id])
+      JOIN products 
+      ON order_products."productId" = products.id
+      WHERE "orderId"=$1
+    `,[orderId])
 
-      return productById;
+      return products;
 
   } catch (error) {
     throw error;
@@ -45,12 +54,31 @@ async function updateProductByOrderId(fields = {}) {
       return productById;
 }
 
+async function addProductToOrder(orderId, productId, quantity) {
+  try {
+
+    const product = await getProductsById(productId);
+
+    const { rows: [ orderProduct ] } = await client.query(`
+      INSERT INTO order_products("orderId", "productId", "quantity", "unitPrice")
+      VALUES($1, $2, $3, $4)
+      RETURNING *;
+    `,[ orderId, productId, quantity, product.price ]);
+
+    return orderProduct;
+
+  } catch (error) {
+    throw error;
+  }
+}
+
 
 
 
 
 
 module.exports = {
-    getProductByOrderId,
-    updateProductByOrderId
+  getProductsByOrderId,
+    updateProductByOrderId,
+    addProductToOrder,
 }

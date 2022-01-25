@@ -3,7 +3,7 @@ const usersRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
-const { createUser, getUserByUsername, getUser } = require("../db/users");
+const { createUser, getUserByUsername, getUser, getAllUsers } = require("../db/users");
 const requireAdmin = require("./middleware/requireAdmin");
 const requireUser = require("./middleware/requireUser");
 
@@ -112,10 +112,15 @@ usersRouter.get("/me", requireUser, async (req, res) => {
 });
 
 
+
+
 usersRouter.get("/", requireAdmin, async (req, res) => {
   // console.log("req.user:",req.user.username)
+
+  const users = await getAllUsers();
+
   res.send({
-    user: req.user,
+    users: users,
   });
 });
 

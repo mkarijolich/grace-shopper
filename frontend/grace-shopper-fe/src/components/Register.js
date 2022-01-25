@@ -119,7 +119,7 @@ const Register = (props) => {
               <Grid container>
                 
                 <Grid item>
-                  <Link href="" variant="body2">
+                  <Link href="./login" variant="body2">
                     {"You already have an account? Log in"}
                   </Link>
                 </Grid>

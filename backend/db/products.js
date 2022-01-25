@@ -115,10 +115,11 @@ async function getProductsById(id) {
   async function getAllProducts() {
     console.log("Getting all products");
     try {
-        const { rows: [ products] } = await client.query(`
+        const { rows:  products } = await client.query(`
             SELECT *
             FROM products
         `);
+        return products;
     } catch (error) {
       throw error;
     }

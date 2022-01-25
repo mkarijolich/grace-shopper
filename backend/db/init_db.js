@@ -17,6 +17,7 @@ const { createProduct,
   updateProduct,
   addPictureLinksToProduct,
   deleteProduct } = require('./products');
+const { createOrder } = require('./orders');
 
 async function buildTables() {
   try {
@@ -26,6 +27,7 @@ async function buildTables() {
     DROP TABLE IF EXISTS cart_products;
     DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS user_addresses;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS products_pictures;
     DROP TABLE IF EXISTS products;
@@ -56,18 +58,31 @@ async function buildTables() {
       account_type VARCHAR(255) NOT NULL
     );
 
+    CREATE TABLE user_addresses(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "street1" VARCHAR(255),
+      "street2" VARCHAR(255),
+      "city" VARCHAR(255),
+      "state" VARCHAR(255),
+      "postalCode" VARCHAR(255)
+    );
+
     CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
       "userId" INTEGER REFERENCES users(id),
+      "userAddressId" INTEGER REFERENCES user_addresses(id),
       status VARCHAR(255) NOT NULL,
-      total INTEGER
+      "totalPrice" NUMERIC,
+      "createdAt" TIMESTAMP
     );
 
     CREATE TABLE order_products(
       id SERIAL PRIMARY KEY,
       "productId" INTEGER REFERENCES products(id),
       "orderId" INTEGER REFERENCES orders(id),
-      quantity INTEGER NOT NULL
+      quantity INTEGER NOT NULL,
+      "unitPrice" NUMERIC
     );
 
     CREATE TABLE cart_products(
@@ -113,6 +128,22 @@ async function populateInitialData() {
     const products = await Promise.all(testProducts.map(createProduct));
     console.log("Creating products successful! Our products are: ", products);
 
+
+    // Create Order
+    await createOrder(2, null, [
+      { id: 1, quantity: 2},
+      { id: 2, quantity: 5},
+    ]);
+
+    await createOrder(3, null, [
+      { id: 3, quantity: 1},
+      { id: 1, quantity: 1},
+    ]);
+
+    await createOrder(1, null, [
+      { id: 2, quantity: 10},
+      { id: 3, quantity: 5},
+    ]);
 
 
   } catch (error) {

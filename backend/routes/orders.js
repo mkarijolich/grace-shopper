@@ -1,37 +1,49 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const requireUser = require("./middleware/requireUser")
+const { getAllOrders, createOrder,getOrderById } = require("../db/orders")
 
 
 
-ordersRouter.get('/', req, res => {
+ordersRouter.get('/', async(req, res) => {
+    
+    const orders = await getAllOrders();
 
-    orders = []; // 
-
-    res.send(orders);
+    res.send({orders});
 });
 
-ordersRouter.post('/', req, res => {
+ordersRouter.get('/:orderId', async(req, res) => {
+    
+    const id  = req.params.orderId;
+    const order = await getOrderById(id);
 
-    orders = []; // 
-
-    res.send(orders);
+    res.send({order});
 });
 
-ordersRouter.patch('/:orderId', req, res => {
+ordersRouter.post('/', async(req, res, next) => {
 
-    orders = []; // 
+    const { userId, addressId, products} = req.body;
+    console.log(userId, addressId, products)
 
-    res.send(orders);
+    const order = await createOrder(userId, addressId, products)
+
+    res.send(order);
 });
 
+// ordersRouter.patch('/:orderId', req, res => {
 
-ordersRouter.delete('/:orderId', req, res => {
+//     orders = []; // 
 
-    orders = []; // 
+//     res.send(orders);
+// });
 
-    res.send(orders);
-});
+
+// ordersRouter.delete('/:orderId', req, res => {
+
+//     orders = []; // 
+
+//     res.send(orders);
+// });
 
 
 

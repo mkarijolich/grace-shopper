@@ -11,8 +11,9 @@ import MyAccount from './components/Myaccount'
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { loadTokenFromLocalStorage } from './helpers/tokenHelpers';
+import OrderDetail from './components/OrderDetail';
 
-// import { fetchAllProducts, fetchAllOrders } from "./api/index";
+
 
 
 
@@ -23,51 +24,25 @@ function App() {
 
   const [user, setUser] = useState(userData);
   const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
+  
 
   const handleLogout = () => {
     setUser({});
     localStorage.removeItem('token');
   };
 
-  // useEffect(() => {
-  //   Promise.all( 
-  //     [
-  //       fetchAllProducts()
-  //     ]
-  //   )
-  //   .then(([productsFromAPI]) => {
-  //     setProducts(productsFromAPI);
-  //     // console.log(routinesFromAPI)
-  //   })
-  // }, [])
-
-  // useEffect(() => {
-  //   Promise.all( 
-  //     [
-  //       fetchAllOrders()
-  //     ]
-  //   )
-  //   .then(([ordersFromAPI]) => {
-  //     setOrders(ordersFromAPI);
-  //     // console.log(routinesFromAPI)
-  //   })
-  // }, [])
-
-
-
-  
 
   return (
     <Router>
-      <NavBar handleLogout={handleLogout} user={user} products={products} orders={orders}/> 
+      <NavBar handleLogout={handleLogout} user={user} products={products}/> 
       <Routes>
         <Route path='/' element={<Home userData={user}/>}/>
         <Route path='/login' element={<Login  setUser={setUser}/>} />
         <Route path='/register' element={<Register  setUser={setUser} user={user}/>} /> 
         <Route path='/products' element={<Products user={user} products={products} setProducts={setProducts} />} />
-        <Route path='/orders' element={<Orders orders={orders} setOrders={setOrders}/>} />
-        <Route path='/myaccount' element={<MyAccount products={products} user={user} orders={orders}/>}/>
+        <Route path='/orders/:id' element={<OrderDetail />} />
+        <Route path='/orders' element={<Orders />} />
+        <Route path='/myaccount' element={<MyAccount products={products} user={user} />}/>
         
       </Routes>
     </Router>

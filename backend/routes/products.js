@@ -1,34 +1,62 @@
 const express = require("express");
-const { getAllProducts } = require("../db");
 const productsRouter = express.Router();
-const requireUser = require("./middleware/requireUser")
-
+const requireUser = require("./middleware/requireUser");
+const { createProduct,
+    getProductByCategory,
+    getProductByName,
+    getProductsById,
+    getAllProducts,
+    updateProduct,
+    addPictureLinksToProduct,
+    deleteProduct } = require('../db/products');
+  
 
 // Get list of all products
 productsRouter.get('/', async(req, res) => {
 
-    const products = await getAllProducts(); // getProducts();  TODO: call the database when it's ready
+    try{
+        const products = await getAllProducts(); // getProducts();  TODO: call the database when it's ready
+        // const pictures = await getAllProductPictures();
+        const pictures = [];
+        pictures.forEach((element) => {
+            
+        });
+        res.send( { products, pictures } );
+    } catch(error){
+        throw error;
+    }
 
-    res.send({products});
+
 });
 
 
 
-// productsRouter.post('/', req, res => {
+productsRouter.post('/', async(req, res) => {
 
-//     products = []; // postProducts();  TODO: call the database when it's ready
+    const { name, detail, category, price, linksArray } = req.body;
 
-//     res.send(products);
-// });
+    try{
+        const product = await createProduct(req.body); // postProducts();  TODO: call the database when it's ready
+        res.send( { product } );
+    } catch(error){
+        console.error(error);
+        next( { name: "Product Post Error", message: "An error was encountered while creating the listing for this product." } )
+    }
+});
 
+// for require user, we should probably check in there whether a user is an admin or not to set thier permissions in the router
+productsRouter.patch('/:productId',requireUser,async(req,res,next) => {
 
-// productsRouter.patch('/:productId',requireUser,async(req,res,next) => {
+    const { name, detail, category, price, linksArray } = req.body;
 
-//     products = [];
+    try{
+        const product = await updateProduct( { name, detail, category, price, linksArray } );
+    } catch(error){
+        console.error(error);
+    }
 
-//     res.send(products);
-
-// })
+    res.send( { product } );
+})
 
 // productsRouter.delete('/:productId',requireUser,async(req,res,next) => {
 

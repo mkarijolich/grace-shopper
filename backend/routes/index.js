@@ -10,8 +10,8 @@ const apiRouter = require('express').Router();
 const usersRouter = require('./users');
 apiRouter.use('/users', usersRouter);
 
-// const productsRouter = require('./products');
-// apiRouter.use('/products', productsRouter);
+const productsRouter = require('./products');
+apiRouter.use('/products', productsRouter);
 
 // const ordersRouter = require('./orders');
 // apiRouter.use('/orders', ordersRouter);

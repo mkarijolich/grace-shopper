@@ -31,7 +31,7 @@ async function createProduct({ name, detail, category, price, linksArray }){
 
         const { rows: [ product] } = await client.query(`
             INSERT INTO products(name,detail,category,price)
-            VALUES($1, $2, $3)
+            VALUES($1, $2, $3, $4)
             RETURNING *;
         `,[ name, detail, category, price ]);
 
@@ -115,10 +115,11 @@ async function getProductsById(id) {
   async function getAllProducts() {
     console.log("Getting all products");
     try {
-        const { rows: [ products] } = await client.query(`
+        const { rows: products } = await client.query(`
             SELECT *
             FROM products
         `);
+        return products;
     } catch (error) {
       throw error;
     }

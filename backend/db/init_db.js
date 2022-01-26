@@ -42,7 +42,7 @@ async function buildTables() {
 
     CREATE TABLE products_pictures(
       id SERIAL NUMBER PRIMARY KEY,
-      link varchar(900) NOT NULL,
+      link varchar(255) NOT NULL,
       "productId" INTEGER REFERENCES products(id)
     )
 

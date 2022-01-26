@@ -9,7 +9,7 @@ const ProductWall = ({ productsArray, setProductsArray, generalViewOn, setGenera
     </>
     )
 
-    return 
+    return allProducts;
 }
 
 export default ProductWall;

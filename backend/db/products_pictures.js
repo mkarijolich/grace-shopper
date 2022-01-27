@@ -12,3 +12,17 @@ async function getAllProductPictures() {
       throw error;
     }
   }
+
+  async function getProductPicturesById(productId) {
+
+      console.log('Getting product pictures for product ID ', productId);
+      try{
+          const { rows: pictures } = await client.query(`
+            SELECT *
+            FROM products_pictures
+            WHERE "productId"= $1
+          `, [productId]);
+      } catch(error){
+          throw error;
+      }
+  }

@@ -15,17 +15,21 @@ const { createProduct,
 productsRouter.get('/', async(req, res) => {
 
     try{
-        const products = await getAllProducts(); // getProducts();  TODO: call the database when it's ready
-        const pictures = await getAllProductPictures();
+        const allProducts = await getAllProducts(); // getProducts();  TODO: call the database when it's ready
+        const allPictures = await getAllProductPictures();
 
-        pictures.forEach((element) => {
-            
+        allProducts.forEach((product) => {
+            product.pictureLinks = [];
+        });
+
+        allPictures.forEach((picture) => {
+            allProducts[picture.productId].pictureLinks.push(picture.link);
         });
     } catch(error){
         throw error;
     }
 
-    res.send( { products, pictures } );
+    res.send( { allProducts } );
 
 });
 

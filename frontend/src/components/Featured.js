@@ -52,7 +52,7 @@ const Featured = ( { productsArray, generalViewOn, setGeneralViewOn, productBein
                     <div class="product-general-view">
             <h4 class="product-name">{product.name}</h4>
             <p class="product-price">{product.price}</p>
-            <img src={productBeingViewed.pictureLinks[0]}></img>
+            <img src={productBeingViewed.pictureLinks[0]} alt="https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-no-image-available-icon-flat-vector-illustration.jpg?ver=6"></img>
             <Button variant="contained" onClick={(event) => handleClick(product)}>See More</Button>
         </div>
         })

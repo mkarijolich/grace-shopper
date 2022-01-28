@@ -21,13 +21,13 @@ export async function getAllProducts() {
   }
 }
 
-export async function detailedProductView() {
-  try{
-    const { data } = await axios.get();
-  } catch(error){
+// export async function detailedProductView() {
+//   try{
+//     const { data } = await axios.get();
+//   } catch(error){
 
-  }
-}
+//   }
+// }
 
 const axios = require('axios');
 

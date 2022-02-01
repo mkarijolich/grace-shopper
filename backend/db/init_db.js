@@ -18,6 +18,7 @@ const { createProduct,
   addPictureLinksToProduct,
   deleteProduct } = require('./products');
 const { createOrder } = require('./orders');
+const { getMaxListeners } = require('process');
 
 async function buildTables() {
   try {
@@ -55,17 +56,21 @@ async function buildTables() {
       id SERIAL PRIMARY KEY,
       username VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
+      email text not null unique,
       account_type VARCHAR(255) NOT NULL
     );
 
     CREATE TABLE user_addresses(
       id SERIAL PRIMARY KEY,
       "userId" INTEGER REFERENCES users(id),
+      "name" VARCHAR(255) UNIQUE NOT NULL,
       "street1" VARCHAR(255),
       "street2" VARCHAR(255),
       "city" VARCHAR(255),
       "state" VARCHAR(255),
-      "postalCode" VARCHAR(255)
+      "postalCode" VARCHAR(255),
+      country VARCHAR(255),
+      "BillingAddress" VARCHAR(255)
     );
 
     CREATE TABLE orders(
@@ -101,10 +106,10 @@ async function populateInitialData() {
   try {
     // create useful starting data
     const testUsers = [
-      { username: 'ChrisG', password: 'password1', account_type:'CUSTOMER' },
-      { username: 'Maki', password: 'password2', account_type:'ADMIN'  },
-      { username: 'Darshan', password: 'password3' ,account_type:'CUSTOMER' },
-      { username: 'ChrisA', password: 'password4',account_type:'ADMIN' }
+      { username: 'ChrisG', password: 'password1', account_type:'CUSTOMER', email:"chirisG@gmail.com" },
+      { username: 'Maki', password: 'password2', account_type:'ADMIN' , email:"makiK@gmail.com" },
+      { username: 'Darshan', password: 'password3' ,account_type:'CUSTOMER', email:"darshan@gmail.com" },
+      { username: 'ChrisA', password: 'password4',account_type:'ADMIN' , email:"chirisA@gmail.com"}
     ]
 
     console.log('Populating users table with seed data...');

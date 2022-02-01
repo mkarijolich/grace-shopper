@@ -4,23 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ProductList from "./ProductList";
 
-import {
-  Container,
-  Typography,
-  TextField,
-  IconButton,
-  Button,
-  Box,
-  CssBaseline,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Paper,
-  Grid,
-  createTheme,
-  ThemeProvider,
-  Avatar
-} from "@mui/material";
+
 import { getOrderByOrderId } from "../api/index";
 
 
@@ -40,7 +24,7 @@ const OrderDetail = () => {
         .then(([orderFromAPI]) => {
           setOrder(orderFromAPI);
         })
-    });
+    }, [setOrder]);
 
     return (
         <div>

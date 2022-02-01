@@ -1,14 +1,23 @@
 const express = require("express");
 const usersRouter = express.Router();
 const jwt = require("jsonwebtoken");
+const { getAllOrders } = require("../db");
 const { JWT_SECRET } = process.env;
 
-const { createUser, getUserByUsername, getUser, getAllUsers } = require("../db/users");
+const {
+  createUser,
+  getUserByUsername,
+  getUser,
+  getAllUsers,
+  getAllAddresses,
+  createAddress,
+  getOrdersByUserId
+} = require("../db/users");
 const requireAdmin = require("./middleware/requireAdmin");
 const requireUser = require("./middleware/requireUser");
 
 usersRouter.post("/register", async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
   try {
     const _user = await getUserByUsername(username);
@@ -21,17 +30,18 @@ usersRouter.post("/register", async (req, res, next) => {
       });
     }
 
-    //   if (password.length <= 7) {
-    //     //if _user.password is less than 7, will display message
-    //     next({
-    //       name: "PasswordError",
-    //       message: "Password must be at least 8 characters long",
-    //     });
-    //   }
+      if (password.length <= 7) {
+        //if _user.password is less than 7, will display message
+        next({
+          name: "PasswordError",
+          message: "Password must be at least 8 characters long",
+        });
+      }
 
     const user = await createUser({
       username,
       password,
+      email,
       account_type: "CUSTOMER",
     });
 
@@ -39,7 +49,8 @@ usersRouter.post("/register", async (req, res, next) => {
       {
         id: user.id,
         username,
-        account_type: user.account_type
+        email,
+        account_type: user.account_type,
       },
       JWT_SECRET,
       {
@@ -83,7 +94,8 @@ usersRouter.post("/login", async (req, res, next) => {
         // create userData obj and store id and username
         id: user.id,
         username: user.username,
-        account_type: user.account_type
+        email:user.email,
+        account_type: user.account_type,
       };
       const token = jwt.sign(userData, JWT_SECRET);
 
@@ -104,15 +116,22 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me", requireUser, async (req, res) => {
-  // console.log("req.user:",req.user.username)
+usersRouter.get("/:userId/orders", requireUser, async (req, res) => {
+  console.log('hello')
+
+  const orders = await getOrdersByUserId(req.user.id) 
+
   res.send({
-    user: req.user,
+    orders
   });
 });
 
-
-
+// usersRouter.get("//orders", requireUser, async (req, res) => {
+//   // console.log("req.user:",req.user.username)
+//   res.send({
+//     user: req.user,
+//   });
+// });
 
 usersRouter.get("/", requireAdmin, async (req, res) => {
   // console.log("req.user:",req.user.username)
@@ -121,6 +140,28 @@ usersRouter.get("/", requireAdmin, async (req, res) => {
 
   res.send({
     users: users,
+  });
+});
+
+usersRouter.get("/:userId/addresses", async (req, res) => {
+
+  const addresses = await getAllAddresses(req.user.id);
+  res.send({addresses});
+});
+
+usersRouter.post("/:userId/addresses", async (req, res) => {
+
+  const address = await createAddress(req.user.id, req.body);
+
+  res.send({
+    name: address.name,
+    street1: address.street1,
+    street2: address.street2,
+    city: address.city,
+    state: address.state,
+    postalCode: address.postalCode,
+    country: address.country,
+    BillingAddress: address.BillingAddress
   });
 });
 

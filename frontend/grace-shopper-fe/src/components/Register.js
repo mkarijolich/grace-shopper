@@ -16,8 +16,6 @@ import {
   Link,
   Paper,
   Grid,
-  createTheme,
-  ThemeProvider,
   Avatar
 } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -29,12 +27,13 @@ const Register = (props) => {
   const { setUser } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const navigate = useNavigate();
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    const token = await register(username, password);
+    const token = await register(username, password, email);
 
     const userData = getDataFromTokenString(token);
 
@@ -102,6 +101,17 @@ const Register = (props) => {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="email"
+                label="Email"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.currentTarget.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

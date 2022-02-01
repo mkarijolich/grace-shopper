@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const UserList = (props) => {
   const [users, setUsers] = useState("");
+  const [checkboxSelection, setCheckboxSelection] = useState(true);
 
   useEffect(() => {
     Promise.all([fetchAllUsers()]).then(([usersFromAPI]) => {
@@ -17,8 +18,8 @@ const UserList = (props) => {
     <div style={{ height: 250, width: "100%" }}>
       {
         users ? (
-          <DataGrid
-            columns={[{ field: "id" },{ field: "username" }, { field: "account_type" }]}
+          <DataGrid checkboxSelection={checkboxSelection}
+            columns={[{ field: "id" },{ field: "username" }, { field: "account_type"} ]}
             rows={users}
           />
         ) : null

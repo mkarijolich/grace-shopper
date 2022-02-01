@@ -2,12 +2,14 @@ const client = require("./client");
 const { password } = require("pg/lib/defaults");
 const bcrypt = require("bcrypt");
 
+const { getProductsByOrderId } = require("./order_products")
+
 async function _hashPassword(password) {
   const SALT_COUNT = 10;
   return await bcrypt.hash(password, 10);
 }
 
-async function createUser({ username, password, account_type }) {
+async function createUser({ username, password, account_type, email }) {
   //customer or admin
   console.error("Creating user", username, password);
   try {
@@ -17,12 +19,12 @@ async function createUser({ username, password, account_type }) {
       rows: [user],
     } = await client.query(
       `
-            INSERT INTO users(username,password,account_type)
-            VALUES($1, $2, $3)
+            INSERT INTO users(username,password,account_type,email)
+            VALUES($1, $2, $3, $4)
             ON CONFLICT (username) DO NOTHING
             RETURNING *;
         `,
-      [username, hashedPassword, account_type]
+      [username, hashedPassword, account_type, email]
     );
 
     delete user.password;
@@ -97,7 +99,7 @@ async function getUserById(id) {
 async function getAllUsers() {
   try {
     const {
-      rows: users,
+      rows: users
     } = await client.query(
       `
             SELECT id,username,account_type
@@ -110,6 +112,62 @@ async function getAllUsers() {
   }
 }
 
+async function createAddress(userId, { name, street1, street2, city, state, postalCode, country, BillingAddress,}) {
+
+  try{ 
+    const{ 
+      rows: [address]
+     } = await client.query(`
+    INSERT into user_addresses("userId", name, street1, street2, city, state, "postalCode", country, "BillingAddress")
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    ON CONFLICT (name) DO NOTHING
+    RETURNING *;
+    `, [userId, name, street1, street2, city, state, postalCode, country, BillingAddress]);
+    return address;
+  } catch(error) {
+    throw error
+  }
+}
+
+async function getAllAddresses(userId) {
+  try {
+    const {
+      rows: addresses
+    } = await client.query(
+      `
+            SELECT *
+            FROM user_addresses
+            WHERE "userId" = $1
+        `
+    , [userId]);
+    return addresses;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getOrdersByUserId(userId) {
+  try {
+
+    const { rows: orders } = await client.query(
+      `
+            SELECT *
+            FROM orders
+            WHERE "userId"=$1
+        `,
+      [userId]
+    );
+
+    await Promise.all(orders.map(async (order) => {
+      const products = await getProductsByOrderId(order.id);
+      order.products = products;
+    }));
+
+    return orders;
+  } catch (error) {
+    throw error;
+  }
+}
 
 
 
@@ -118,5 +176,8 @@ module.exports = {
     getUser,
     getUserById,
     getUserByUsername,
-    getAllUsers
+    getAllUsers,
+    createAddress,
+    getAllAddresses,
+    getOrdersByUserId
 }

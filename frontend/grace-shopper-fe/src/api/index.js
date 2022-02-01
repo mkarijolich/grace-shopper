@@ -1,10 +1,12 @@
+import { loadTokenFromLocalStorage } from "../helpers/tokenHelpers";
+
 export const BASE_URL = "http://localhost:4000/api";
 
 const getTokenFromLocalStorage = () => {
   return localStorage.getItem("token");
 };
 
-export const register = async (username, password) => {
+export const register = async (username, password, email) => {
   try {
     const response = await fetch(`${BASE_URL}/users/register`, {
       method: "POST",
@@ -15,6 +17,7 @@ export const register = async (username, password) => {
       body: JSON.stringify({
         username: username,
         password: password,
+        email: email
       }),
     });
     const res = await response.json();
@@ -146,8 +149,72 @@ export const getOrderByOrderId = async(orderId) => {
     }
 }
 
+export const getAllAddresses = async() => {
+  const { token, id } = loadTokenFromLocalStorage();
+  try {
+      const response = await fetch(`${BASE_URL}/users/${id}/addresses`, {
+          method: "GET",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+      })
+      const data = await response.json();
+      return data.addresses;
 
+  } catch (error) {
+      console.log("An error occurred while trying to edit a order.")
+  }
+}
 
+export const createAddress = async (editName, editStreet1, editStreet2, editCity, editState, editPostalCode, editCountry, editBillingAddress) => {
+  const { token, id } = loadTokenFromLocalStorage();
+
+  try {
+      const response = await fetch(`${BASE_URL}/users/${id}/addresses`, {
+          method: "POST",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+          body: JSON.stringify({
+                  name: editName,
+                  street1: editStreet1,
+                  street2: editStreet2,
+                  city: editCity,
+                  state: editState,
+                  postalCode:editPostalCode,
+                  country:editCountry,
+                  BillingAddress:editBillingAddress
+          })
+      })
+      return await response.json()
+
+  } catch (error) {
+      console.log("An error occurred while trying to edit a post.")
+  }
+}
+
+export const getOrdersByUserId = async() => {
+  const { token, id } = loadTokenFromLocalStorage();
+  try {
+      const response = await fetch(`${BASE_URL}/users/${id}/orders`, {
+          method: "GET",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+      })
+      const data = await response.json();
+      return data.orders;
+
+  } catch (error) {
+      console.log("An error occurred while trying to edit a order.")
+  }
+}
 
 
 

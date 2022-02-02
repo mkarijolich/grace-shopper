@@ -1,16 +1,21 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { Button, Popper, Box, Fade, Paper } from "@mui/material";
+import {
+  Button,
+  Popper,
+  Box,
+  Fade,
+  Paper,
+  MenuItem,
+  Menu,
+} from "@mui/material";
 import EditProfile from "./EditProfile";
-
 
 const AddressList = (props) => {
   const { addresses } = props;
 
   const navigate = useNavigate();
-
-
 
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -19,12 +24,15 @@ const AddressList = (props) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
   };
-  
+
   const canBeOpen = open && Boolean(anchorEl);
-  const id = canBeOpen ? 'transition-popper' : undefined;
+  const id = canBeOpen ? "transition-popper" : undefined;
 
 
+  
 
+
+  
 
   return (
     <div style={{ height: 250, width: "100%" }}>
@@ -42,9 +50,7 @@ const AddressList = (props) => {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
-            
               <EditProfile />
-           
             </Paper>
           </Fade>
         )}
@@ -52,14 +58,35 @@ const AddressList = (props) => {
       {addresses ? (
         <DataGrid
           columns={[
-            { field: "street1" },
-            { field: "street2" },
-            { field: "city" },
-            { field: "state" },
-            { field: "postalCode" },
-            { field: "country" },
+            { field: "street1",
+            editable:true, },
+            { field: "street2",
+            editable:true},
+            { field: "city",
+            editable:true},
+            { field: "state" ,
+            editable:true},
+            { field: "postalCode",
+            editable:true },
+            { field: "country",
+            editable:true },
+            {
+              field: "Edit",
+              
+              renderCell: (cellValues) => {
+                return (
+                  <Button
+                    color="primary"
+                  >
+                    Edit
+                  </Button>
+                  
+                );
+              },
+            },
           ]}
           rows={addresses}
+          
         />
       ) : null}
     </div>

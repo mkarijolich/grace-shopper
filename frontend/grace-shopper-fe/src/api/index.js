@@ -216,50 +216,27 @@ export const getOrdersByUserId = async() => {
   }
 }
 
+export const deleteUser = async (userId) => {
+  const { token, id } = loadTokenFromLocalStorage();
+  try {
+      const response = await fetch(`${BASE_URL}/users/${id}`, {
+          method: "DELETE",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+      })
+      const data = await response.json();
+      return data.orders;
+
+  } catch (error) {
+      console.log("An error occurred while trying to delete a user.")
+      throw error
+  }
+}
 
 
 
 
-// export const getMe = async () => {
-//     const token = getTokenFromLocalStorage();
 
-//     try {
-//       const response = await fetch(`${BASE_URL}/users/me`, {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           'Authorization':
-//                     `Bearer ${token}`
-//         },
-//       });
-//       const data = await response.json();
-//       console.log(data)
-//       return data.user;
-
-//     } catch (error) {
-//       console.log("An error occurred while fetching user data.");
-//       throw error;
-//     }
-//   };
-
-// export const fetchMyAccount = async () => {
-//     const token = getTokenFromLocalStorage();
-
-//     try {
-//       const response = await fetch(`${BASE_URL}/users/me/myaccount`, {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           'Authorization':
-//                     `Bearer ${token}`
-//         },
-//       });
-//       const data = await response.json();
-//       console.log(data)
-//       return data.routines;
-
-//     } catch (error) {
-//       console.log("An error occurred while fetching all routines.");
-//       throw error;
-//     }
-//   };

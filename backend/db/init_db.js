@@ -23,6 +23,7 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+    DROP TABLE IF EXISTS cart;
     DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
@@ -49,7 +50,7 @@ async function buildTables() {
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       username VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL
+      password VARCHAR(255) NOT NULL,
     );
 
     CREATE TABLE orders(
@@ -62,6 +63,12 @@ async function buildTables() {
       id SERIAL PRIMARY KEY,
       "productId" INTEGER REFERENCES products(id),
       "orderId" INTEGER REFERENCES orders(id)
+    );
+
+    CREATE TABLE cart(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "productId" INTEGER REFERENCES products(id)
     );
   `);
   } catch (error) {

@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
 
-import Home from "./components/Home"
-import Products from './src/components/Products';
-import Orders from './src/components/Orders';
-import NavBar from './src/components/NavBar';
-import MyAccount from './src/components/Myaccount';
+// import Home from "./components/Home"
+// import ProductWall from './src/components/ProductWall';
+// import Featured from './src/components/Featured';
+// import Orders from './src/components/Orders';
+// import NavBar from './src/components/NavBar';
+// import MyAccount from './src/components/Myaccount';
 
 import { getAllProducts } from "../api/index";
 
-import { ProductWall } from "./";
+import { ProductWall, Featured } from "./";
 
 
 function App() {

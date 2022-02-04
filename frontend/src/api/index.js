@@ -29,7 +29,7 @@ export async function getAllProducts() {
 //   }
 // }
 
-const axios = require('axios');
+// const axios = require('axios');
 
 async function makeRequest() {
 

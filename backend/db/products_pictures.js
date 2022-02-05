@@ -1,5 +1,6 @@
 const client = require("./client")
 
+
 async function getAllProductPictures() {
     console.log("Getting all product pictures!");
     try {
@@ -7,12 +8,13 @@ async function getAllProductPictures() {
             SELECT *
             FROM products_pictures
         `);
-        return products;
+        return pictures;
     } catch (error) {
       throw error;
     }
   }
 
+  
   async function getProductPicturesById(productId) {
 
       console.log('Getting product pictures for product ID ', productId);
@@ -26,3 +28,9 @@ async function getAllProductPictures() {
           throw error;
       }
   }
+
+
+module.exports = {
+    getAllProductPictures,
+    getProductPicturesById
+};

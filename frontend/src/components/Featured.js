@@ -29,12 +29,9 @@ const Featured = ( { productsArray, generalViewOn, setGeneralViewOn, productBein
     const featuredProductNums = [];
 
     for( let i = 0; i < 4; i++ ){
-
         let num = Math.floor(Math.random() * productsArray.length);
         featuredProductNums.includes(num) ? i-- : featuredProductsArray.push(productsArray[num]);
         //careful, could end in infinite loop if <4 products exist
-
-
     }
 
     if( generalViewOn ){
@@ -43,6 +40,7 @@ const Featured = ( { productsArray, generalViewOn, setGeneralViewOn, productBein
             <h4 class="product-name">{product.name}</h4>
             <p class="product-price">{product.price}</p>
             <img src={productBeingViewed.pictureLinks[0]} alt="https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-no-image-available-icon-flat-vector-illustration.jpg?ver=6"></img>
+            <Button variant="contained" onClick={(event) => handleClickView(product)}>See More</Button>
             <Button variant="contained" onClick={(event) => handleClickView(product)}>See More</Button>
         </div>
         })

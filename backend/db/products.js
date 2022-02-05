@@ -1,30 +1,9 @@
 const client = require("./client")
+const {
+    getProductPicturesById,
+    getAllProductPictures
+} = require('./products_pictures');
 
-//this will be useful for ordering product from price lo to hi, and vice versa, will obviously need to change some of the code
-//depending on which way we are trying to sort the data
-function quicksort(array) {
-    if (array.length <= 1) {
-      return array;
-    }
-  
-    var pivot = array[0];
-    
-    var left = []; 
-    var right = [];
-  
-    for (var i = 1; i < array.length; i++) {
-      array[i] < pivot ? left.push(array[i]) : right.push(array[i]);
-    }
-  
-    return quicksort(left).concat(pivot, quicksort(right));
-  };
-  
-  var unsorted = [23, 45, 16, 37, 3, 99, 22];
-  var sorted = quicksort(unsorted);
-  
-  console.log('Sorted array', sorted);
-
-//linksArray is contains all the href links to the pictures for the products
 async function createProduct({ name, detail, category, price, linksArray }){
     console.log("Creating product with: ", name, detail, category, price);
     try{
@@ -97,7 +76,7 @@ async function getProductByCategory( category ){
     }
 }
 
-async function getProductsById(id) {
+async function getProductById(id) {
     console.log("Getting product by ID: ", id);
     try {
         const { rows: [ product ] } = await client.query(`
@@ -125,15 +104,30 @@ async function getProductsById(id) {
     }
   }
 
-  async function updateProduct({ name, detail, category, price, id}){
-    console.log("Updating product: ", name, detail, category, price, id);
+  async function updateProduct( fields = {} ){
+
+    console.log("Updating product: ", fields.name, fields.detail, fields.category, fields.price, fields.linksArray, fields.id);
+
+    const id = fields.id;
+    const links = fields.links;
+    delete fields.id;
+    delete fields.id;
+
+    const setString=Object.keys(fields).map(
+        (key, index) => `"${key}"=$${index + 1}`
+      ).join(', ');
+
+      if (setString.length === 0) {
+        return;
+      }
+
     try{
         const { rows: [ product ] } = await client.query(`
             UPDATE products
-            SET name=$1, detail=$2, category=$3, price=$4
-            WHERE id=$5
+            SET ${setString}
+            WHERE id=${id}
             RETURNING *
-        `,[ name, detail, category, price, id])
+        `, Object.values(fields))
 
         return product;
     }catch(error){
@@ -157,7 +151,7 @@ module.exports = {
     createProduct,
     getProductByCategory,
     getProductByName,
-    getProductsById,
+    getProductById,
     getAllProducts,
     updateProduct,
     addPictureLinksToProduct,

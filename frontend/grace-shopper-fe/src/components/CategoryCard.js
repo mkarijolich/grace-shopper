@@ -16,12 +16,12 @@ const CategoryCard = () => {
         <CardMedia
           component="img"
           height="100"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="Home Decor"
+          sx={{backgroundImage: 'url(https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)',
+          }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Home Decor
+          Home Goods
           </Typography>
         </CardContent>
 
@@ -47,12 +47,12 @@ const CategoryCard = () => {
         <CardMedia
           component="img"
           height="100"
-          sx={{backgroundImage: 'url(https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)',
+          sx={{backgroundImage: 'url(https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)',
         }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Kitchen
+            Electronics
           </Typography>
         </CardContent>
       </Card>
@@ -75,12 +75,12 @@ const CategoryCard = () => {
         <CardMedia
           component="img"
           height="100"
-          sx={{backgroundImage: 'url(https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)',
+          sx={{backgroundImage: 'url(https://images.unsplash.com/photo-1632393088059-53b002f8f2d0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)',
         }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Kitchen
+            Essentials
           </Typography>
         </CardContent>
       </Card>

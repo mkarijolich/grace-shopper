@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { fetchAllUsers } from "../api";
 import { DataGrid } from "@mui/x-data-grid";
 import {
-  Button
+  Button,
+  Box,
+  Menu,
+  MenuItem
 } from "@mui/material";
 import { deleteUser } from "../api";
 
@@ -18,17 +21,31 @@ const UserList = (props) => {
   }, []);
 
   // const [open, setOpen] = React.useState(false);
-  // const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  //   setOpen((previousOpen) => !previousOpen);
-  // };
-
-  const handleDeleteSubmit = (e) => {
-    e.preventDefault();
-    deleteUser(userId);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    
   };
+
+  const handleDeleteSubmit = (e, row) => {
+    e.preventDefault();
+    deleteUser(row.id);
+  };
+
+  const options = ["ADMIN", "CUSTOMER"];
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const open = Boolean(anchorEl);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    setAnchorEl(null);
+  };
+
+
+
 
 
   return (
@@ -38,14 +55,48 @@ const UserList = (props) => {
           columns={[
             { field: "id" },
             { field: "username" },
-            { field: "account_type" },
+            { field: "account_type",
+            width:150,
+            renderCell: (cellValues) => {
+              return (
+                <Box>
+                  <Button id="basic-button" onClick={handleClick}>
+                  {options[selectedIndex]}
+                  </Button>
+
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'lock-button',
+                      role: 'listbox',
+                    }}
+                  >
+                    
+
+                    {options.map((option, index) => (
+                      <MenuItem
+                        key={option}
+                        selected={index === selectedIndex}
+                        onClick={(event) => handleMenuItemClick(event, index)}
+                      >
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+              );
+            }, },
             {
               field: "Delete this user",
+              width:150,
               renderCell: (cellValues) => {
                 return (
                   <Button
                     color="primary"
-                    onClick={handleDeleteSubmit}
+                    onClick={(e)=> { handleDeleteSubmit(e, cellValues)}}
                   >
                     Delete
                   </Button>

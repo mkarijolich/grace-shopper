@@ -77,9 +77,12 @@ export const fetchAllProducts = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        'Authorization':
+                     `Bearer ${token}`
       },
     });
     const data = await response.json();
+    console.log('products', data)
     return data.products;
   } catch (error) {
     console.log("An error occurred while fetching all products.");
@@ -164,7 +167,7 @@ export const getAllAddresses = async() => {
       return data.addresses;
 
   } catch (error) {
-      console.log("An error occurred while trying to edit a order.")
+      console.log("An error occurred while trying to get address.")
   }
 }
 
@@ -193,7 +196,7 @@ export const createAddress = async (editName, editStreet1, editStreet2, editCity
       return await response.json()
 
   } catch (error) {
-      console.log("An error occurred while trying to edit a post.")
+      console.log("An error occurred while trying to create a address.")
   }
 }
 
@@ -212,14 +215,14 @@ export const getOrdersByUserId = async() => {
       return data.orders;
 
   } catch (error) {
-      console.log("An error occurred while trying to edit a order.")
+      console.log("An error occurred while trying to get a order.")
   }
 }
 
 export const deleteUser = async (userId) => {
-  const { token, id } = loadTokenFromLocalStorage();
+  const { token } = loadTokenFromLocalStorage();
   try {
-      const response = await fetch(`${BASE_URL}/users/${id}`, {
+      const response = await fetch(`${BASE_URL}/users/${userId}`, {
           method: "DELETE",
           headers: {
               'Content-Type': 'application/json',
@@ -228,7 +231,7 @@ export const deleteUser = async (userId) => {
           },
       })
       const data = await response.json();
-      return data.orders;
+      return data;
 
   } catch (error) {
       console.log("An error occurred while trying to delete a user.")
@@ -237,6 +240,164 @@ export const deleteUser = async (userId) => {
 }
 
 
+export const updateUser = async(userId, username,password,email,account_type,active) => {
+  const token = getTokenFromLocalStorage();
+  try {
+      const response = await fetch(`${BASE_URL}/users/${userId}`, {
+          method: "PATCH",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            username:username,
+            password:password,
+            email:email,
+            account_type:account_type,
+            active:active
+          })
+      })
+      return await response.json()
+
+  } catch (error) {
+      console.log("An error occurred while trying to edit a user.")
+  }
+}
 
 
 
+export const updateAddress = async (editName, editStreet1, editStreet2, editCity, editState, editPostalCode, editCountry, editBillingAddress) => {
+  const { token, id } = loadTokenFromLocalStorage();
+
+  try {
+      const response = await fetch(`${BASE_URL}/users/${id}/addresses`, {
+          method: "PATCH",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+          body: JSON.stringify({
+                  name: editName,
+                  street1: editStreet1,
+                  street2: editStreet2,
+                  city: editCity,
+                  state: editState,
+                  postalCode:editPostalCode,
+                  country:editCountry,
+                  BillingAddress:editBillingAddress
+          })
+      })
+      return await response.json()
+
+  } catch (error) {
+      console.log("An error occurred while trying to edit an address.")
+  }
+}
+
+
+export const fetchProductsByCategory = async ( category ) => {
+  try {
+    const response = await fetch(`${BASE_URL}/products/category/${category}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data.products;
+  } catch (error) {
+    console.log("An error occurred while fetching the product.");
+    throw error;
+  }
+}
+
+
+export const fetchProductById = async ( id ) => {
+  try {
+    const response = await fetch(`${BASE_URL}/products/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data.products;
+  } catch (error) {
+    console.log("An error occurred while fetching the product.");
+    throw error;
+  }
+}
+
+
+export const postNewProduct = async (name, detail, category, price, linksArray) => {
+  const token = getTokenFromLocalStorage();
+  try {
+    const response = await fetch(`${BASE_URL}/products`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+          `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name: name,
+        detail: detail,
+        category: category,
+        price: price,
+        linksArray: linksArray
+      })
+    })
+    return await response.json();
+  } catch (error) {
+    console.log("An error occurred while trying to list a product.")
+    throw error
+  }
+};
+
+
+export const destroyProduct = async (productId) => {
+  const token = getTokenFromLocalStorage();
+  try {
+    const response = await fetch(`${BASE_URL}/products/${productId}`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+          `Bearer ${token}`
+      },
+    })
+    const result = await response.json()
+    return result;
+  } catch (error) {
+    console.log("An error occurred while trying to delist a product.")
+    throw error
+  }
+}
+
+
+export const changeProduct = async (id, name, detail, category, price, linksArray) => {
+  const token = getTokenFromLocalStorage();
+  try {
+    const response = await fetch(`${BASE_URL}/product/${id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+          `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name: name,
+        detail: detail,
+        category: category,
+        price: price,
+        linksArray: linksArray
+      })
+    })
+    return await response.json()
+  } catch (error) {
+    console.log("An error occurred while trying to update a product.");
+    throw error;
+  }
+}

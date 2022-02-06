@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,12 +13,12 @@ import {
 import EditProfile from "./EditProfile";
 
 const AddressList = (props) => {
-  const { addresses } = props;
+  const { addresses,  } = props;
 
   const navigate = useNavigate();
 
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,6 +27,21 @@ const AddressList = (props) => {
 
   const canBeOpen = open && Boolean(anchorEl);
   const id = canBeOpen ? "transition-popper" : undefined;
+
+
+  const [selectedCellParams, setSelectedCellParams] = useState(null);
+
+  const handleCellClick = useCallback((params) => {
+    setSelectedCellParams(params);
+  }, []);
+
+  const handleClickEdit = () => {
+    const cellMode = selectedCellParams;
+
+    if(cellMode === 'edit'){
+      setSelectedCellParams(5)
+    }
+  }
 
 
   
@@ -42,6 +57,7 @@ const AddressList = (props) => {
         aria-describedby={id}
         sx={{ mt: 3, mb: 2 }}
         onClick={handleClick}
+        
       >
         Add Address
       </Button>
@@ -59,7 +75,8 @@ const AddressList = (props) => {
         <DataGrid
           columns={[
             { field: "street1",
-            editable:true, },
+            editable:true,
+           },
             { field: "street2",
             editable:true},
             { field: "city",
@@ -77,8 +94,9 @@ const AddressList = (props) => {
                 return (
                   <Button
                     color="primary"
+                    onClick={handleClickEdit}
                   >
-                    Edit
+                    {selectedCellParams?.cellMode === 'edit' ? 'Save' : 'Edit'}
                   </Button>
                   
                 );
@@ -86,6 +104,7 @@ const AddressList = (props) => {
             },
           ]}
           rows={addresses}
+          onCellClick={handleCellClick}
           
         />
       ) : null}

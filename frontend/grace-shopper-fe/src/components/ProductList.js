@@ -12,7 +12,7 @@ const ProductList = (props) => {
       {
             products ? 
                 <DataGrid
-                    columns={[{ field: 'id' }, { field: 'name' }, { field: 'detail' }, { field: 'category' },{ field: 'price' },]}
+                    columns={[{ field: 'id' }, { field: 'name',width:200 }, { field: 'detail',width:200 }, { field: 'category' },{ field: 'price' },]}
                     rows={products}
                 />
             : null 

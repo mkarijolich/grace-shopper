@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
 import {
   Button,
   Popper,
@@ -9,27 +8,42 @@ import {
   Paper,
   MenuItem,
   Menu,
-  Link
+  Link,
 } from "@mui/material";
+import { updateOrder } from "../api"
+import { loadTokenFromLocalStorage } from "../helpers/tokenHelpers"
 
 const OrderList = (props) => {
   const { orders } = props;
 
-  const navigate = useNavigate();
+  const token = loadTokenFromLocalStorage();
+  const isAdmin = token.account_type === "ADMIN";
 
-  const onRowClick = (row) => {
-    if (row.id) navigate(`/orders/${row.id}`);
-  };
+  const options = ["created", "processing", "canceled", "completed"];
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(-1);
+  const open = Boolean(anchorEl);
 
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
+  const handleOrderStatusOpened = (event, orderId) => {
+    if (!isAdmin) return;
     setAnchorEl(event.currentTarget);
-    setOpen((previousOpen) => !previousOpen);
+    setSelectedOrderId(orderId);
   };
-  const handleClose = () => {
+
+  const handleOrderStatusClosed = () => {
     setAnchorEl(null);
+  };
+  
+  const handleOrderStatusChanged = (newStatus) => {
+    if (!isAdmin) return;    
+    updateOrder(selectedOrderId, newStatus);
+    setAnchorEl(null);
+
+    orders.forEach(order => {
+      if (order.id === selectedOrderId) {
+        order.status = newStatus;
+      }
+    })
   };
 
   return (
@@ -39,13 +53,11 @@ const OrderList = (props) => {
           columns={[
             { field: "id" },
             { field: "userId" },
-            { field: "createdAt" },
+            
             {
               field: "order detail",
               renderCell: (cellValues) => {
-                return (
-                  <Link href={`/orders/${cellValues.id}`}>Detail</Link>
-                );
+                return <Link href={`/orders/${cellValues.id}`}>Detail</Link>;
               },
             },
             {
@@ -53,39 +65,40 @@ const OrderList = (props) => {
               renderCell: (cellValues) => {
                 return (
                   <Box>
-                    <Button
-                      id="basic-button"
-                      aria-controls={open ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                      onClick={handleClick}
-                    >
-                      created
+                    <Button id="basic-button" onClick={(e) => handleOrderStatusOpened(e, cellValues.id)}>
+                    {cellValues.row.status}
                     </Button>
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                      }}
-                    >
-                      <MenuItem onClick={handleClose}>Created</MenuItem>
-                      <MenuItem onClick={handleClose}>Processing</MenuItem>
-                      <MenuItem onClick={handleClose}>Cancelled</MenuItem>
-                      <MenuItem onClick={handleClose}>Completed</MenuItem>
-                    </Menu>
                   </Box>
                 );
               },
             },
+            { field: "createdAt",
+            width:150, },
           ]}
           rows={orders}
           // onRowClick={onRowClick}
         />
       ) : null}
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleOrderStatusClosed}
+        MenuListProps={{'aria-labelledby': 'lock-button',role: 'listbox',}}
+      >
+
+        {options.map((option, index) => (
+          <MenuItem
+            key={option}
+            onClick={(e) => handleOrderStatusChanged(options[index])}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
     </div>
+    
   );
 };
 

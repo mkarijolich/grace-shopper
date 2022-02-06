@@ -23,7 +23,6 @@ function App() {
 
   const [user, setUser] = useState(userData);
   const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
   const [generalViewOn, setGeneralViewOn] = useState(true);
   const [productBeingViewed, setProductBeingViewed] = useState({});
@@ -34,24 +33,14 @@ function App() {
     localStorage.removeItem('token');
   };
 
-  useEffect(() => {
-    Promise.all( 
-      [
-        fetchAllProducts() //need to make a a getAllProductPictures function in api/index and integrate throughout backend
-      ]
-    )
-    .then(([productsFromAPI]) => {
-      setProductsArray(productsFromAPI);
-      // console.log(routinesFromAPI)
-    })
-  }, [])
+
 
 
   return (
     <Router>
       <NavBar handleLogout={handleLogout} user={user} products={products}/> 
       <Routes>
-        <Route path='/' element={<><Home userData={user}/> <Featured productsArray={productsArray} generalViewOn={generalViewOn} setGeneralViewOn={setGeneralViewOn} productBeingViewed={productBeingViewed} setProductBeingViewed={setProductBeingViewed}/></>}/>
+        <Route path='/' element={<Home userData={user}/> }/>
         <Route path='/login' element={<Login  setUser={setUser}/>} />
         <Route path='/register' element={<Register  setUser={setUser} user={user}/>} /> 
         <Route path='/products' element={<ProductWall user={user} productsArray={productsArray} setProducts={setProductsArray} generalViewOn={generalViewOn} setGeneralViewOn={setGeneralViewOn} productBeingViewed={productBeingViewed} setProductBeingViewed={setProductBeingViewed} />} />

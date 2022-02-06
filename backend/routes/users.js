@@ -11,7 +11,9 @@ const {
   getAllUsers,
   getAllAddresses,
   createAddress,
-  getOrdersByUserId
+  getOrdersByUserId,
+  destroyUser,
+  updateUser
 } = require("../db/users");
 const requireAdmin = require("./middleware/requireAdmin");
 const requireUser = require("./middleware/requireUser");
@@ -153,16 +155,36 @@ usersRouter.post("/:userId/addresses", async (req, res) => {
 
   const address = await createAddress(req.user.id, req.body);
 
-  res.send({
-    name: address.name,
-    street1: address.street1,
-    street2: address.street2,
-    city: address.city,
-    state: address.state,
-    postalCode: address.postalCode,
-    country: address.country,
-    BillingAddress: address.BillingAddress
-  });
+  res.send({ address });
 });
+
+usersRouter.delete('/:userId',requireAdmin, async(req,res,next) => {
+  try{
+      const id = req.params.userId
+      console.log(id)
+      const user = await destroyUser(id);
+  
+      res.send({
+          user
+      })
+  }catch ({ name, message }) {
+      next({ name, message });
+  }
+})
+
+usersRouter.patch('/:userId',requireAdmin, async(req,res,next) => {
+  try{
+      const { userId } = req.params;
+      req.body.id = userId;
+
+      const user = await updateUser(req.body);
+  
+      res.send({
+          user
+      })
+  }catch ({ name, message }) {
+      next({ name, message });
+  }
+})
 
 module.exports = usersRouter;

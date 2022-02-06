@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button,  Box, Typography, Container, Grid, TextField } from "@mui/material";
+import { updateUser } from '../api';
 
 
 const theme = createTheme();
@@ -15,9 +16,9 @@ const BasicDetails = (props) => {
         username,password
     } = props;
 
-    // const [editName, setEditName] = useState(""); //saved data in post page as default
-    // const [editStreet1, setEditStreet1] = useState("");
-    // const [editStreet2, setEditStreet2] = useState("");
+    const [editName, setEditName] = useState(""); //saved data in post page as default
+    const [editEmailAddress, setEditEmailAddress] = useState("");
+    const [editPassword, setEditPassword] = useState("");
 
     
     const navigate = useNavigate();
@@ -48,8 +49,8 @@ const BasicDetails = (props) => {
                                     label="Full name"
                                     autoFocus
                                     variant="standard"
-                                    // value={editName}
-                                    // onChange={(e) => setEditName(e.currentTarget.value)}
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.currentTarget.value)}
                                 />
                             </Grid>
 
@@ -61,8 +62,8 @@ const BasicDetails = (props) => {
                                     id="emailAddress"
                                     label="Email address"
                                     variant="standard"
-                                    // value={editStreet1}
-                                    // onChange={(e) => setEditStreet1(e.currentTarget.value)}
+                                    value={editEmailAddress}
+                                    onChange={(e) => setEditEmailAddress(e.currentTarget.value)}
                                 />
                             </Grid>
 
@@ -74,8 +75,8 @@ const BasicDetails = (props) => {
                                     id="password"
                                     label="Password"
                                     variant="standard"
-                                    // value={editStreet2}
-                                    // onChange={(e) => setEditStreet2(e.currentTarget.value)}
+                                    value={editPassword}
+                                    onChange={(e) => setEditPassword(e.currentTarget.value)}
                                 />
                             </Grid>
 
@@ -84,9 +85,11 @@ const BasicDetails = (props) => {
                         <Button
                             sx={{ mt: 2, ml: 18 }}
                             variant="outlined"
-                            // onClick={(e) => {createAddress(editName, editStreet1, editStreet2);
-                            // }}
-                                // e.preventDefault()
+                            onClick={(e) => {
+                                e.preventDefault()
+                                updateUser(editName, editEmailAddress, editPassword);
+                            }}
+                            
                                 
                         >Update</Button>
                     </Box>

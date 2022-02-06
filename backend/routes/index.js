@@ -28,6 +28,9 @@ apiRouter.use('/order_products', orderProductsRouter);
 const adminRouter = require('./admin');
 apiRouter.use('/admin',adminRouter);
 
+const cartRouter = require('./cart');
+apiRouter.use('/cart', cartRouter);
+
 apiRouter.use((error, req, res, next) => {
   const status = error.status ? error.status : 500
 

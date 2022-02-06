@@ -25,6 +25,7 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+    DROP TABLE IF EXISTS cart;
     DROP TABLE IF EXISTS cart_products;
     DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS orders;
@@ -47,7 +48,7 @@ async function buildTables() {
     );
 
     CREATE TABLE products_pictures(
-      id SERIAL NUMBER PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       link varchar(255) NOT NULL,
       "productId" INTEGER REFERENCES products(id)
     );
@@ -57,7 +58,8 @@ async function buildTables() {
       username VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
       email text not null unique,
-      account_type VARCHAR(255) NOT NULL
+      account_type VARCHAR(255) NOT NULL,
+      active BOOLEAN NOT NULL
     );
 
     CREATE TABLE user_addresses(
@@ -96,6 +98,13 @@ async function buildTables() {
       "productId" INTEGER REFERENCES products(id),
       quantity INTEGER
     );
+
+    CREATE TABLE cart(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "productId" INTEGER REFERENCES products(id)
+    );
+
   `);
   } catch (error) {
     throw error;

@@ -9,6 +9,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Link from '@mui/material/Link';
 import Container from "@mui/material/Container";
 
+
 const NavBar = ({ user, handleLogout, products, orders }) => {
 
     const navigate = useNavigate();

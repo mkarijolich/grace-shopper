@@ -6,10 +6,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { HashLink } from 'react-router-hash-link';
 import Link from '@mui/material/Link';
 import Container from "@mui/material/Container";
+
 
 const NavBar = ({ user, handleLogout, products, orders }) => {
 

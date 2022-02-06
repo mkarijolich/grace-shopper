@@ -1,7 +1,8 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const requireUser = require("./middleware/requireUser")
-const { getAllOrders, createOrder,getOrderById } = require("../db/orders")
+const requireAdmin = require('./middleware/requireAdmin')
+const { getAllOrders, createOrder,getOrderById,updateOrder } = require("../db/orders")
 
 
 
@@ -30,12 +31,21 @@ ordersRouter.post('/', async(req, res, next) => {
     res.send(order);
 });
 
-// ordersRouter.patch('/:orderId', req, res => {
-
-//     orders = []; // 
-
-//     res.send(orders);
-// });
+ordersRouter.patch('/:orderId',requireAdmin, async(req,res,next) => {
+    try{
+        const { orderId } = req.params;
+        const updateFields = req.body;
+        updateFields.id = orderId;
+    
+        const order = await updateOrder(updateFields);
+    
+        res.send({
+            order
+        })
+    }catch ({ name, message }) {
+        next({ name, message });
+    }
+})
 
 
 // ordersRouter.delete('/:orderId', req, res => {

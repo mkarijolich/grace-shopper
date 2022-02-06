@@ -19,8 +19,8 @@ async function createUser({ username, password, account_type, email }) {
       rows: [user],
     } = await client.query(
       `
-            INSERT INTO users(username,password,account_type,email)
-            VALUES($1, $2, $3, $4)
+            INSERT INTO users(username,password,account_type,email,active)
+            VALUES($1, $2, $3, $4, true)
             ON CONFLICT (username) DO NOTHING
             RETURNING *;
         `,
@@ -169,6 +169,46 @@ async function getOrdersByUserId(userId) {
   }
 }
 
+async function destroyUser(id){
+    
+  const {rows:[user]} = await client.query(`
+  UPDATE users
+  SET active=false
+  WHERE users.id=${id}
+  RETURNING *
+  `)
+  console.log(user)
+  return user
+}
+
+async function updateUser(fields = {}) {
+  try {
+
+    const id = fields.id;
+
+    const setString=Object.keys(fields).map(
+      (key, index) => `"${key}"=$${index + 1}`
+    ).join(', ');
+
+    if (setString.length === 0) {
+      return;
+    }
+
+    const { rows: [user]} = await client.query(`
+    UPDATE users
+    SET ${setString}
+    WHERE id=${id}
+    RETURNING *
+    `, Object.values(fields));
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
 
 
 module.exports = {
@@ -179,5 +219,7 @@ module.exports = {
     getAllUsers,
     createAddress,
     getAllAddresses,
-    getOrdersByUserId
+    getOrdersByUserId,
+    destroyUser,
+    updateUser
 }

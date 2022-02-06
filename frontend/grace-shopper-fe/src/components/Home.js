@@ -1,7 +1,7 @@
 import React from "react";
 import DashboardContent from "./DashboardContent";
 import CustomerHome from "./CustomerHome";
-import {Container } from '@mui/material';
+import {Container, Typography } from '@mui/material';
 
 
 const Home = (props) => {
@@ -24,7 +24,7 @@ const Home = (props) => {
                     
                     // Logged Out Home Page
                     else
-                        return <h1> Logged Out </h1>
+                        return <Typography>logged out user</Typography>
                     
                 })()
             }

@@ -1,4 +1,5 @@
 const client = require("./client")
+const { getProductPicturesById } = require("./products_pictures")
 
 //this will be useful for ordering product from price lo to hi, and vice versa, will obviously need to change some of the code
 //depending on which way we are trying to sort the data
@@ -119,6 +120,11 @@ async function getProductsById(id) {
             SELECT *
             FROM products
         `);
+
+        await Promise.all(products.map(async (product) => {
+            const pictures = await getProductPicturesById(product.id);
+            product.pictureLinks = pictures
+          }));
         return products;
     } catch (error) {
       throw error;

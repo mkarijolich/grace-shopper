@@ -17,7 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import { mainListItems } from './listItems';
-import { fetchAllOrders } from "../api/index";
+import { fetchAllOrders , fetchAllProducts} from "../api/index";
 import OrderList from './OrderList';
 import UserList from './UserList';
 
@@ -58,6 +58,7 @@ function DashboardContent() {
   const [open, setOpen] = React.useState(true);
   const [orders, setOrders] = React.useState([]);
   const [users, setUsers] = React.useState([]);
+  const [products,setProducts] = React.useState([]);
   
 
 
@@ -65,11 +66,11 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  // useEffect(() => {
-  //   Promise.all([fetchAllProducts()]).then(([productsFromAPI]) => {
-  //     setProducts(productsFromAPI);
-  //   });
-  // }, []);
+  useEffect(() => {
+    Promise.all([fetchAllProducts()]).then(([productsFromAPI]) => {
+      setProducts(productsFromAPI);
+    });
+  }, []);
 
   useEffect(() => {
     Promise.all( 

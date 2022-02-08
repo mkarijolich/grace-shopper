@@ -4,7 +4,6 @@ import { Container, Box, Typography, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import ProductCard from "./ProductCard";
 import CategoryCard from "./CategoryCard";
 import PictureSlider from "./PictureSlider";
 import Featured from "./Featured";

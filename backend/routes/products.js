@@ -38,6 +38,8 @@ productsRouter.get('/', async(req, res) => {
 
 productsRouter.get('/:productId', async (req, res) => {
 
+    const { id } = req.params.productId;
+
     try{
         const product = await getProductById( id );
         const pictures = await getProductPicturesById( id );
@@ -98,12 +100,12 @@ productsRouter.post('/', async(req, res) => {
 
 productsRouter.patch('/:productId',requireUser,async(req,res,next) => {
 
-    const id = req.params.productId;
+    const { id } = req.params.productId;
 
     const { name, detail, category, price, linksArray } = req.body;
 
     try{
-        const product = await updateProduct( { name, detail, category, price, linksArray } );
+        const product = await updateProduct( { id, name, detail, category, price, linksArray } );
     } catch(error){
         console.error(error);
     }
@@ -113,8 +115,10 @@ productsRouter.patch('/:productId',requireUser,async(req,res,next) => {
 
 
 productsRouter.delete('/:productId',requireUser,async(req,res,next) => {
+    
+    const id = req.params.productId
+
     try{
-        const id = req.params.productId
         const product = await deleteProduct( id );
     
         res.send({

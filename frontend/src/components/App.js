@@ -10,7 +10,7 @@ import './App.css';
 // import NavBar from './src/components/NavBar';
 // import MyAccount from './src/components/Myaccount';
 
-import { getAllProducts } from "../api/index";
+import { fetchAllProducts } from "../api";
 
 import { ProductWall, Featured } from "./";
 
@@ -42,7 +42,7 @@ function App() {
   useEffect(() => {
     Promise.all( 
       [
-        getAllProducts() //need to make a a getAllProductPictures function in api/index and integrate throughout backend
+        fetchAllProducts() //need to make a a getAllProductPictures function in api/index and integrate throughout backend
       ]
     )
     .then(([productsFromAPI]) => {

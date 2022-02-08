@@ -77,13 +77,15 @@ async function buildTables() {
 }
 
 async function populateInitialData() {
+
   try {
     // create useful starting data
     const testUsers = [
-      { username: 'ChrisG', password: 'password1' },
-      { username: 'Maki', password: 'password2' },
-      { username: 'Darshan', password: 'password3' },
-      { username: 'ChrisA', password: 'password4'}
+      { username: 'Guest', password: 'password', account_type: 'CUSTOMER', email:"nullAddress@yahoo.com"},
+      { username: 'ChrisG', password: 'password1', account_type:'CUSTOMER', email:"chirisG@gmail.com" },
+      { username: 'Maki', password: 'password2', account_type:'ADMIN' , email:"makiK@gmail.com" },
+      { username: 'Darshan', password: 'password3' ,account_type:'CUSTOMER', email:"darshan@gmail.com" },
+      { username: 'ChrisA', password: 'password4',account_type:'ADMIN' , email:"chirisA@gmail.com"}
     ]
 
     console.log('Populating users table with seed data...');

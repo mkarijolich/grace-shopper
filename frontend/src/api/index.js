@@ -1,6 +1,12 @@
 // import axios from 'axios';
 export const HOME_URL = "https://localhost:4000";
+export const BASE_URL = "http://localhost:3000/api";
+export const COHORT_NAME = "2108-UIC-RM-WEB-PT";
+export const API_URL = BASE_URL + "/" + COHORT_NAME;
 
+const getTokenFromLocalStorage = () => {
+    return localStorage.getItem('token');
+}
 // export async function getSomething() {
 //   try {
 //     const { data } = await axios.get('/api');
@@ -15,6 +21,17 @@ export const HOME_URL = "https://localhost:4000";
 //     const res = await axios.get(`${HOME_URL}`);
 //     const data = res.data;
 //     console.log(data);
+//   } catch(error){
+//     throw error;
+//   }
+// }
+
+
+// export const checkout = async () => {
+//   try{
+//     const response = await fetch(`${BASE_URL}/create-checkout-session`, {
+//       method: "POST",
+//     })
 //   } catch(error){
 //     throw error;
 //   }

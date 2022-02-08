@@ -131,7 +131,8 @@ async function populateInitialData() {
       3. case with no picture links
       4. case with non-unique category to help us test search by category later on
     */
-      const testProducts = [
+
+    const testProducts = [
         { name: "Ceiling Fan", detail: "A fan on the ceiling", category: "Ceiling Fans", price: 75, linksArray: ["https://images.thdstatic.com/productImages/62152035-b1f7-496d-8f66-9d024ddc6d2e/svn/bronze-hampton-bay-ceiling-fans-with-lights-52051-e1_600.jpg"] },
         { name: "Door Handle", detail: "A handle on a door", category: "Essentials", price: 10, linksArray: ["https://www.busterandpunch.com/us/wp-content/uploads/sites/2/2020/03/2.-BusterPunch_Door_Handle_Front_Fixed_Brass-scaled.jpg", "https://www.busterandpunch.com/us/wp-content/uploads/sites/2/2021/04/Door-handle_Fixed_Linear_Welders-Black_A2_Web_Square-scaled.jpg"] },
         { name: "72in TV", detail: "A really big TV", category: "Electronics", price: 775, linksArray: ["https://images.furnituredealer.net/img/products%2Fparker_house%2Fcolor%2Fcharlotte%20cha_cha-72-b1.jpg"] },
@@ -192,9 +193,7 @@ async function populateInitialData() {
         { name: "PS5", detail: "The unobtainable PS5", category: "Electronics", price: 500, linksArray: ["https://www.nme.com/wp-content/uploads/2020/06/ps5-credit-sie@2000x1270.jpg"] },
         { name: "Umbrella", detail: "Stay dry", category: "Essentials", price: 24, linksArray: ["https://m.media-amazon.com/images/I/71md9jHDSgL._AC_SL1500_.jpg"] },
         { name: "Printer", detail: "Print the important stuff!", category: "Electronics", price: 50, linksArray: ["https://i.pcmag.com/imagery/roundups/01Wsuw14K02wrCTGIwg8xA8-15.fit_lim.size_1200x630.v1620845330.jpg"] },
-        { name: "Record Player", detail: "Play your vinyls.", category: "Electronics", price: 100, linksArray: ["https://m.media-amazon.com/images/I/718+Yzgt7qL._AC_SL1500_.jpg"] }
-      ]
-  
+        { name: "Record Player", detail: "Play your vinyls.", category: "Electronics", price: 100, linksArray: ["https://m.media-amazon.com/images/I/718+Yzgt7qL._AC_SL1500_.jpg"] } ]
       // new product categories: "Ceiling Fans", "Furniture", "Lighting", "Pets", "Grocery"
   
       /* all categories:

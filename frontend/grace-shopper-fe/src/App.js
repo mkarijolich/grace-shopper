@@ -13,6 +13,8 @@ import Register from "./components/Register";
 import { loadTokenFromLocalStorage } from './helpers/tokenHelpers';
 import OrderDetail from './components/OrderDetail';
 import { fetchAllProducts } from "./api/index";
+import TopDeals from './components/TopDeals';
+import CategoryProductsCard from './components/CategoryProductsCard';
 
 
 function App() {
@@ -26,14 +28,20 @@ function App() {
   const [generalViewOn, setGeneralViewOn] = useState(true);
   const [productBeingViewed, setProductBeingViewed] = useState({});
 
+  useEffect(() => {
+    Promise.all([
+      fetchAllProducts(), //need to make a a getAllProductPictures function in api/index and integrate throughout backend
+    ]).then(([productsFromAPI]) => {
+      setProductsArray(productsFromAPI);
+      // console.log(routinesFromAPI)
+    });
+  }, [setProductsArray]);
+
 
   const handleLogout = () => {
     setUser({});
     localStorage.removeItem('token');
   };
-
-
-
 
   return (
     <Router>
@@ -45,6 +53,14 @@ function App() {
         <Route path='/products' element={<ProductWall user={user} productsArray={productsArray} setProducts={setProductsArray} generalViewOn={generalViewOn} setGeneralViewOn={setGeneralViewOn} productBeingViewed={productBeingViewed} setProductBeingViewed={setProductBeingViewed} />} />
         <Route path='/orders/:id' element={<OrderDetail />} />
         <Route path='/myaccount' element={<MyAccount products={products} user={user} />}/>
+        <Route path='/electronics' element={<CategoryProductsCard products={productsArray} category={"Electronics"} /> }></Route>
+        <Route path='/electronics' element={<CategoryProductsCard products={productsArray} category={"Electronics"} /> }></Route>
+        <Route path='/essentials' element={<CategoryProductsCard products={productsArray} category={"Essentials"} /> }></Route>
+        <Route path='/grocery' element={<CategoryProductsCard products={productsArray} category={"Grocery"} /> }></Route>
+        <Route path='/lighting' element={<CategoryProductsCard products={productsArray} category={"Lighting"} /> }></Route>
+        <Route path='/pets' element={<CategoryProductsCard products={productsArray} category={"Pets"} /> }></Route>
+        <Route path='/homegoods' element={<CategoryProductsCard products={productsArray} category={"Homegoods"} /> }></Route>
+        <Route path='/topdeals' element={<TopDeals products={productsArray} /> }></Route>
         
       </Routes>
     </Router>

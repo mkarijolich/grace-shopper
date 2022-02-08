@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Carousel from 'react-material-ui-carousel'
+import Image from 'material-ui-image'
 import {
   Container,
   Box,
@@ -7,26 +8,34 @@ import {
   Tab,
   Button,
   Paper,
-  Image,
 } from "@mui/material";
+
 
 const PictureSlider = (props) => {
   
-    const { products } = props;
+    const { products, maxItems } = props;
 
-    console.log(products)
-
-
-
-
+    const getFeaturedProducts = (products) => { 
+      // Choose 5 random products to feature
+      const shuffled = products.sort(() => 0.5 - Math.random());
+      console.log(shuffled, maxItems)
+      return shuffled.slice(0, maxItems);    
+    }
 
   return (
     <Carousel>
 
         {
-            products.map(product => { return (
+            getFeaturedProducts(products).map(product => { return (
                 <Paper>
-                    <img src={product.pictureLinks[0]} alt="product"/>
+                    <h2 style={{position: "absolute"}} > {product.name } </h2>
+                    <div  style={{ 
+                      height: "300px", 
+                      backgroundImage: "url(" + product.pictureLinks[0] + ")",  
+                      backgroundPosition: 'center',
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat'}} />
+                      
                 </Paper>
             
             )})

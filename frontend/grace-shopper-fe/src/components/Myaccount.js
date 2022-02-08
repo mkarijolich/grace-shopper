@@ -7,9 +7,10 @@ import TabPanel from "@mui/lab/TabPanel";
 import EditProfile from "./EditProfile";
 import AddressList from "./AddressList";
 import { getAllAddresses } from "../api";
-import BasicDetails from "./basicDetails";
+import BasicDetails from "./BasicDetails";
 import OrderList from "./OrderList";
 import { getOrdersByUserId } from "../api/index";
+
 
 const MyAccount = (props) => {
   const { username, password, orderId,  user } = props;

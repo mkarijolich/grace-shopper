@@ -18,7 +18,6 @@ const PictureSlider = (props) => {
     const getFeaturedProducts = (products) => { 
       // Choose 5 random products to feature
       const shuffled = products.sort(() => 0.5 - Math.random());
-      console.log(shuffled, maxItems)
       return shuffled.slice(0, maxItems);    
     }
 
@@ -27,7 +26,7 @@ const PictureSlider = (props) => {
 
         {
             getFeaturedProducts(products).map(product => { return (
-                <Paper>
+                <Paper key={product.id}>
                     <h2 style={{position: "absolute"}} > {product.name } </h2>
                     <div  style={{ 
                       height: "300px", 

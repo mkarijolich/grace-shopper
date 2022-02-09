@@ -8,9 +8,10 @@ import Typography from '@mui/material/Typography';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Link from '@mui/material/Link';
 import Container from "@mui/material/Container";
+import SearchBar from './Search';
+import { gridFilteredDescendantCountLookupSelector } from '@mui/x-data-grid';
 
-
-const NavBar = ({ user, handleLogout, products, orders }) => {
+const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
 
     const navigate = useNavigate();
 
@@ -29,6 +30,8 @@ const NavBar = ({ user, handleLogout, products, orders }) => {
                         <Typography variant="h4" color="#006D77" noWrap sx={{ flexGrow: 1 }}>
                         Grace Shopper
                         </Typography>
+
+                        <SearchBar setSearchTerm={setSearchTerm}/>
                         
                         {Object.keys(user).length > 0 ?//logged in
                             <nav>

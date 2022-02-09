@@ -265,7 +265,26 @@ export const updateUser = async(userId, username,password,email,account_type,act
   }
 }
 
+export const updateUserAccountType = async(userId, account_type) => {
+  const token = getTokenFromLocalStorage();
+  try {
+      const response = await fetch(`${BASE_URL}/users/${userId}`, {
+          method: "PATCH",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            account_type:account_type
+          })
+      })
+      return await response.json()
 
+  } catch (error) {
+      console.log("An error occurred while trying to edit a user.")
+  }
+}
 
 export const updateAddress = async (editName, editStreet1, editStreet2, editCity, editState, editPostalCode, editCountry, editBillingAddress) => {
   const { token, id } = loadTokenFromLocalStorage();

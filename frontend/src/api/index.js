@@ -37,6 +37,24 @@ const getTokenFromLocalStorage = () => {
 //   }
 // }
 
+export const getOrderByUserId = async(userId) => {
+  const token = getTokenFromLocalStorage();
+  try {
+      const response = await fetch(`${BASE_URL}/orders/${orderId}`, {
+          method: "GET",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  `Bearer ${token}`
+          },
+      })
+      const data = await response.json();
+      return data.order;
+
+  } catch (error) {
+      console.log("An error occurred while trying to edit a order.")
+  }
+}
 
 export const fetchAllProducts = async () => {
   try {

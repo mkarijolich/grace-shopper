@@ -27,7 +27,12 @@ productsRouter.get('/', async(req, res) => {
         throw error;
     }
 });
+
+
 productsRouter.get('/:productId', async (req, res) => {
+
+    const { id } = req.params.productId;
+
     try{
         const product = await getProductById( id );
         const pictures = await getProductPicturesById( id );
@@ -37,6 +42,8 @@ productsRouter.get('/:productId', async (req, res) => {
         throw error;
     }
 });
+
+
 productsRouter.get('/category/:category', async (req, res) => {
     const { category } = req.params.category;
     try{
@@ -69,19 +76,28 @@ productsRouter.post('/', async(req, res) => {
         next( { name: "Product Post Error", message: "An error was encountered while creating the listing for this product." } )
     }
 });
+
+
 productsRouter.patch('/:productId',requireUser,async(req,res,next) => {
-    const id = req.params.productId;
+
+    const { id } = req.params.productId;
+
     const { name, detail, category, price, linksArray } = req.body;
     try{
-        const product = await updateProduct( { name, detail, category, price, linksArray } );
+        const product = await updateProduct( { id, name, detail, category, price, linksArray } );
     } catch(error){
         console.error(error);
     }
     res.send( { product } );
 })
+
+
 productsRouter.delete('/:productId',requireUser,async(req,res,next) => {
+    
+    const id = req.params.productId
+    
     try{
-        const id = req.params.productId
+        
         const product = await deleteProduct( id );
         res.send({
             product

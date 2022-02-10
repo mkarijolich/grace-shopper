@@ -172,10 +172,18 @@ usersRouter.delete('/:userId',requireAdmin, async(req,res,next) => {
   }
 })
 
-usersRouter.patch('/:userId',requireAdmin, async(req,res,next) => {
+usersRouter.patch('/:userId',requireUser, async(req,res,next) => {
   try{
       const { userId } = req.params;
       req.body.id = userId;
+
+      if(req.user.id.toString() !== userId && req.user.account_type !== 'ADMIN') {
+        next({
+          name:"Unauthorized",
+          message: "You are not authorized.",
+          status: 401
+        });
+      }
 
       const user = await updateUser(req.body);
   

@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
+
 import {
   Button,
   Popper,
@@ -13,9 +14,8 @@ import {
 import EditProfile from "./EditProfile";
 
 const AddressList = (props) => {
-  const { addresses,  } = props;
+  const { addresses } = props;
 
-  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -28,7 +28,6 @@ const AddressList = (props) => {
   const canBeOpen = open && Boolean(anchorEl);
   const id = canBeOpen ? "transition-popper" : undefined;
 
-
   const [selectedCellParams, setSelectedCellParams] = useState(null);
 
   const handleCellClick = useCallback((params) => {
@@ -38,16 +37,10 @@ const AddressList = (props) => {
   const handleClickEdit = () => {
     const cellMode = selectedCellParams;
 
-    if(cellMode === 'edit'){
-      setSelectedCellParams(5)
+    if (cellMode === "edit") {
+      setSelectedCellParams(5);
     }
-  }
-
-
-  
-
-
-  
+  };
 
   return (
     <div style={{ height: 250, width: "100%" }}>
@@ -57,7 +50,6 @@ const AddressList = (props) => {
         aria-describedby={id}
         sx={{ mt: 3, mb: 2 }}
         onClick={handleClick}
-        
       >
         Add Address
       </Button>
@@ -66,7 +58,7 @@ const AddressList = (props) => {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
-              <EditProfile />
+              <EditProfile setOpen={setOpen}/>
             </Paper>
           </Fade>
         )}
@@ -74,38 +66,26 @@ const AddressList = (props) => {
       {addresses ? (
         <DataGrid
           columns={[
-            { field: "street1",
-            editable:true,
-           },
-            { field: "street2",
-            editable:true},
-            { field: "city",
-            editable:true},
-            { field: "state" ,
-            editable:true},
-            { field: "postalCode",
-            editable:true },
-            { field: "country",
-            editable:true },
+            { field: "street1", editable: true },
+            { field: "street2", editable: true },
+            { field: "city", editable: true },
+            { field: "state", editable: true },
+            { field: "postalCode", editable: true },
+            { field: "country", editable: true },
             {
               field: "Edit",
-              
+
               renderCell: (cellValues) => {
                 return (
-                  <Button
-                    color="primary"
-                    onClick={handleClickEdit}
-                  >
-                    {selectedCellParams?.cellMode === 'edit' ? 'Save' : 'Edit'}
+                  <Button color="primary" onClick={handleClickEdit}>
+                    {selectedCellParams?.cellMode === "edit" ? "Save" : "Edit"}
                   </Button>
-                  
                 );
               },
             },
           ]}
           rows={addresses}
           onCellClick={handleCellClick}
-          
         />
       ) : null}
     </div>

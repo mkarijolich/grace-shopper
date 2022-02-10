@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { fetchAllProducts } from "../api";
+
 
 const ProductList = (props) => {
 

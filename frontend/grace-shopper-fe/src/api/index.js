@@ -240,10 +240,11 @@ export const deleteUser = async (userId) => {
 }
 
 
-export const updateUser = async(userId, username,password,email,account_type,active) => {
-  const token = getTokenFromLocalStorage();
+export const updateUser = async(username,email,password) => {
+  const { token, id } = loadTokenFromLocalStorage();
+
   try {
-      const response = await fetch(`${BASE_URL}/users/${userId}`, {
+      const response = await fetch(`${BASE_URL}/users/${id}`, {
           method: "PATCH",
           headers: {
               'Content-Type': 'application/json',
@@ -254,8 +255,6 @@ export const updateUser = async(userId, username,password,email,account_type,act
             username:username,
             password:password,
             email:email,
-            account_type:account_type,
-            active:active
           })
       })
       return await response.json()

@@ -186,6 +186,8 @@ async function updateUser(fields = {}) {
 
     const id = fields.id;
 
+    fields.password = await _hashPassword(fields.password)
+
     const setString=Object.keys(fields).map(
       (key, index) => `"${key}"=$${index + 1}`
     ).join(', ');

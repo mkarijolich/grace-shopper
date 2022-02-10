@@ -22,9 +22,9 @@ const UserList = (props) => {
   const [selectedUserId, setSelectedUserId] = useState(-1);
   const open = Boolean(anchorEl);
 
-  const handleDeleteSubmit = (e, row) => {
+  const handleDeleteSubmit = (e, cellValues) => {
     e.preventDefault();
-    deleteUser(row.id);
+    deleteUser(cellValues.id);
   };
 
   const handleUserStatusOpened = (event, userId) => {
@@ -98,7 +98,8 @@ const UserList = (props) => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          "aria-labelledby": "lock-button",role: "listbox",
+          "aria-labelledby": "lock-button",
+          role: "listbox",
         }}
       >
         {options.map((option, index) => (
@@ -110,7 +111,6 @@ const UserList = (props) => {
           </MenuItem>
         ))}
       </Menu>
-      );
     </div>
   );
 };

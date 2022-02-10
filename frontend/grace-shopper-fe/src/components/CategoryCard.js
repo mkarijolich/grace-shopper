@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from '@mui/material';
 
 const CategoryCard = () => {
     const navigate = useNavigate();
@@ -16,8 +17,9 @@ const CategoryCard = () => {
         gap: 15,
       }}>
       
-
+      
       <Card sx={{ maxWidth: 250}} onClick={() => navigate("/electronics")}>
+      <CardActionArea>
         <CardMedia
           component="img"
           height="100"
@@ -25,14 +27,18 @@ const CategoryCard = () => {
           }}
           
         />
+        
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
           Electronics
           </Typography>
         </CardContent>
+        </CardActionArea>
       </Card>
+      
 
       <Card sx={{ maxWidth: 250 }} onClick={() => navigate("/essentials")}>
+      <CardActionArea>
         <CardMedia
           component="img"
           height="100"
@@ -44,11 +50,13 @@ const CategoryCard = () => {
           Essentials
           </Typography>
         </CardContent>
+        </CardActionArea>
       </Card>
 
      
 
       <Card sx={{ maxWidth: 250 }} onClick={() => navigate("/grocery")}>
+      <CardActionArea>
         <CardMedia
           component="img"
           height="100"
@@ -60,9 +68,11 @@ const CategoryCard = () => {
           Grocery
           </Typography>
         </CardContent>
+        </CardActionArea>
       </Card>
 
       <Card sx={{ maxWidth: 250 }} onClick={() => navigate("/lighting")}>
+      <CardActionArea>
         <CardMedia
           component="img"
           height="100"
@@ -74,9 +84,11 @@ const CategoryCard = () => {
           Lighting
           </Typography>
         </CardContent>
+        </CardActionArea>
       </Card>
 
       <Card sx={{ maxWidth: 250 }} onClick={() => navigate("/pets")}>
+      <CardActionArea>
         <CardMedia
           component="img"
           height="100"
@@ -88,10 +100,12 @@ const CategoryCard = () => {
           Pets
           </Typography>
         </CardContent>
+        </CardActionArea>
       </Card>
 
 
       <Card sx={{ maxWidth: 250 }} onClick={() => navigate("/homegoods")}>
+      <CardActionArea>
         <CardMedia
           component="img"
           height="100"
@@ -103,12 +117,8 @@ const CategoryCard = () => {
           Home Goods
           </Typography>
         </CardContent>
+        </CardActionArea>
       </Card>
-
-      
-      
-
-
 
 
     </Container>

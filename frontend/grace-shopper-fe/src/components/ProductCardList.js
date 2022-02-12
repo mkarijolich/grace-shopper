@@ -20,7 +20,7 @@ const ProductCardList = (props) => {
       }}>
         {
             products ? products.map(product => {
-                return <ProductCard product={product} />
+                return <ProductCard product={product} key={product.id}/>
             }) : null
         }
     </Container>

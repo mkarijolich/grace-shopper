@@ -19,7 +19,7 @@ const CategoryProductsCard = (props) => {
     <Container>
       <h1> {category} </h1>
       <PictureSlider products={getProductsByCategory(category, products)} maxItems={FEATURED_NUMBER}/>
-      <ProductCardList products={getProductsByCategory(category, products)} />
+      <ProductCardList products={getProductsByCategory(category, products)} sx={{ mt:"40px"}}/>
     </Container>
 
   )

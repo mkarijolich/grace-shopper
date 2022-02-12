@@ -20,6 +20,7 @@ import { mainListItems } from './listItems';
 import { fetchAllOrders , fetchAllProducts} from "../api/index";
 import OrderList from './OrderList';
 import UserList from './UserList';
+import AdminProductsDashboard from './AdminProductsDashboard';
 
 
 const drawerWidth = 240;
@@ -153,13 +154,10 @@ function DashboardContent() {
                 </Paper>
               </Grid>
               
-              {/* Recent Orders
               <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}> */}
-                  {/* <Orders /> */}
-                  
-                {/* </Paper>
-              </Grid> */}
+                <AdminProductsDashboard products={products} />
+              </Grid>
+              
             </Grid>
           </Container>
         </Box>

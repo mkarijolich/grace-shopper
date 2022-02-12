@@ -13,18 +13,12 @@ const Home = (props) => {
         <Container>
             {
                 (() => {
-
-                    // Customer Home Page
-                    if (userData.account_type === 'CUSTOMER')
-                        return <CustomerHome />
-
                     // Admin Dashboard Page
-                    else if (userData.account_type === 'ADMIN') 
-                        return <DashboardContent />
-                    
-                    // Logged Out Home Page
-                    else
-                        return <Typography>logged out user</Typography>
+                    if (userData.account_type === 'ADMIN') 
+                    return <DashboardContent />
+
+                    else  return <CustomerHome />
+
                     
                 })()
             }

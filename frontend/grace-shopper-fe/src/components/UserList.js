@@ -88,6 +88,7 @@ const UserList = (props) => {
                 );
               },
             },
+            { field: "active" },
           ]}
           rows={users}
         />

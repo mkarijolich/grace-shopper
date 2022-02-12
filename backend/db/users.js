@@ -102,7 +102,7 @@ async function getAllUsers() {
       rows: users
     } = await client.query(
       `
-            SELECT id,username,account_type
+            SELECT id,username,account_type,active
             FROM users
         `
     );

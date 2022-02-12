@@ -29,8 +29,6 @@ const EditProfile = (props) => {
   const [editCountry, setEditCountry] = useState("");
   const [editBillingAddress, setEditBillingAddress] = useState("");
 
-  
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -173,10 +171,11 @@ const EditProfile = (props) => {
                   editCountry,
                   editBillingAddress
                 );
+                setOpen(false);
               }}
               to="/"
             >
-              Update
+              Submit
             </Button>
 
             <Button  

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button,  Box, Typography, Container, Grid, TextField } from "@mui/material";
 import { updateUser } from '../api';
+import { loadTokenFromLocalStorage } from '../helpers/tokenHelpers';
 
 
 const theme = createTheme();
@@ -20,6 +21,14 @@ const BasicDetails = (props) => {
     const [editEmailAddress, setEditEmailAddress] = useState("");
     const [editPassword, setEditPassword] = useState("");
 
+    useEffect(() => {
+        Promise.all([
+            loadTokenFromLocalStorage(),
+        ]).then(([token]) => {
+            setEditName(token.username);
+            setEditEmailAddress(token.email)
+        });
+      }, [setEditName, setEditEmailAddress]);
     
     const navigate = useNavigate();
 
@@ -43,10 +52,11 @@ const BasicDetails = (props) => {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12}>
                                 <TextField
-                                    name="fullName"
+                                    name="userName"
                                     required
-                                    id="fullName"
-                                    label="Full name"
+                                    fullWidth
+                                    id="userName"
+                                    label="Username"
                                     autoFocus
                                     variant="standard"
                                     value={editName}

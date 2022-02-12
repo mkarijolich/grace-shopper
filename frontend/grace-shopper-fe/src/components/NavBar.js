@@ -6,12 +6,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
 import SearchBar from "./Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
+import blue from "@material-ui/core/colors/green";
 
 const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
           <Toolbar sx={{ flexWrap: "wrap" }}>
             <Typography
               variant="h4"
-              color="#006D77"
+              color="#3c3e45"
               noWrap
               sx={{ flexGrow: 1 }}
             >
@@ -44,10 +44,10 @@ const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
             <Button
               href="/"
               variant="button"
-              color="text.primary"
+              
               sx={{ my: 1, mx: 1.5 }}
             >
-              <HomeIcon />
+              <HomeIcon style={{ color: "#666970" }}/>
             </Button>
 
             {Object.keys(user).length > 0 ? ( //logged in
@@ -55,10 +55,10 @@ const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
                 <Button
                   href="/myaccount"
                   variant="button"
-                  color="text.primary"
+                  
                   sx={{ my: 1, mx: 1.5 }}
                 >
-                  <AccountCircleIcon />
+                  <AccountCircleIcon style={{ color: "#1e88e5" }}/>
                 </Button>
 
                 <Button

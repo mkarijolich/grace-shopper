@@ -11,6 +11,8 @@ const { createProduct,
     deleteProduct } = require('../db/products');
 const { getProductPicturesById,
     getAllProductPictures } = require("../db/products_pictures");
+
+    
 // Get list of all products
 productsRouter.get('/', async(req, res) => {
     try{

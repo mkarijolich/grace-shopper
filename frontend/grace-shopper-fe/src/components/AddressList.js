@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
+import Tooltip from '@mui/material/Tooltip';
+
 
 import {
   Button,
@@ -28,20 +29,6 @@ const AddressList = (props) => {
   const canBeOpen = open && Boolean(anchorEl);
   const id = canBeOpen ? "transition-popper" : undefined;
 
-  const [selectedCellParams, setSelectedCellParams] = useState(null);
-
-  const handleCellClick = useCallback((params) => {
-    setSelectedCellParams(params);
-  }, []);
-
-  const handleClickEdit = () => {
-    const cellMode = selectedCellParams;
-
-    if (cellMode === "edit") {
-      setSelectedCellParams(5);
-    }
-  };
-
   return (
     <div style={{ height: 250, width: "100%" }}>
       <Button
@@ -66,26 +53,14 @@ const AddressList = (props) => {
       {addresses ? (
         <DataGrid
           columns={[
-            { field: "street1", editable: true },
-            { field: "street2", editable: true },
-            { field: "city", editable: true },
-            { field: "state", editable: true },
-            { field: "postalCode", editable: true },
-            { field: "country", editable: true },
-            {
-              field: "Edit",
-
-              renderCell: (cellValues) => {
-                return (
-                  <Button color="primary" onClick={handleClickEdit}>
-                    {selectedCellParams?.cellMode === "edit" ? "Save" : "Edit"}
-                  </Button>
-                );
-              },
-            },
+            { field: "street1", editable: false },
+            { field: "street2", editable: false },
+            { field: "city", editable: false },
+            { field: "state", editable: false },
+            { field: "postalCode", editable: false },
+            { field: "country", editable: false },
           ]}
           rows={addresses}
-          onCellClick={handleCellClick}
         />
       ) : null}
     </div>

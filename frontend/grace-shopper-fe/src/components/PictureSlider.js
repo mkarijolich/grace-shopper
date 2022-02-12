@@ -1,14 +1,8 @@
-import React, { useState } from "react";
-import Carousel from 'react-material-ui-carousel'
-import Image from 'material-ui-image'
 import {
-  Container,
-  Box,
-  Typography,
-  Tab,
-  Button,
-  Paper,
+  Paper
 } from "@mui/material";
+import React from "react";
+import Carousel from 'react-material-ui-carousel';
 
 
 const PictureSlider = (props) => {

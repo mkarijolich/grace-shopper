@@ -10,7 +10,7 @@ async function getProductsByOrderId(orderId) {
         products.detail,
         products.category,
         order_products.quantity,
-        order_products."unitPrice"
+        order_products."unitPrice" as price
       FROM order_products
       JOIN products 
       ON order_products."productId" = products.id

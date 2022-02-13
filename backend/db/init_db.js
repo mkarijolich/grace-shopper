@@ -115,7 +115,6 @@ async function populateInitialData() {
   try {
     // create useful starting data
     const testUsers = [
-      { username: 'Guest', password: 'password', account_type: 'CUSTOMER', email:"nullAddress@yahoo.com"},
       { username: 'ChrisG', password: 'password1', account_type:'CUSTOMER', email:"chirisG@gmail.com" },
       { username: 'Maki', password: 'password2', account_type:'ADMIN' , email:"makiK@gmail.com" },
       { username: 'Darshan', password: 'password3' ,account_type:'CUSTOMER', email:"darshan@gmail.com" },

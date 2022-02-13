@@ -315,7 +315,7 @@ export const postNewProduct = async (name, detail, category, price, linksArray) 
     })
     return await response.json();
   } catch (error) {
-    console.log("An error occurred while trying to list a product.")
+    console.log("An error occurred while trying to create a product.")
     throw error
   }
 };
@@ -338,7 +338,7 @@ export const destroyProduct = async (productId) => {
 
 export const changeProduct = async (id, name, detail, category, price, linksArray) => {
   try {
-    const response = await fetch(`${BASE_URL}/product/${id}`, {
+    const response = await fetch(`${BASE_URL}/products/${id}`, {
       method: "PATCH",
       headers: getHeaders(),
       body: JSON.stringify({

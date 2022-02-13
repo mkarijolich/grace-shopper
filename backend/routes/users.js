@@ -64,6 +64,7 @@ usersRouter.post("/register", async (req, res, next) => {
       user,
       token,
     });
+    
   } catch ({ name, message }) {
     console.error(message);
     next({ name, message });
@@ -128,15 +129,8 @@ usersRouter.get("/:userId/orders", requireUser, async (req, res) => {
   });
 });
 
-// usersRouter.get("//orders", requireUser, async (req, res) => {
-//   // console.log("req.user:",req.user.username)
-//   res.send({
-//     user: req.user,
-//   });
-// });
 
 usersRouter.get("/", requireAdmin, async (req, res) => {
-  // console.log("req.user:",req.user.username)
 
   const users = await getAllUsers();
 

@@ -17,6 +17,7 @@ import TopDeals from './components/TopDeals';
 import CategoryProductsCard from './components/CategoryProductsCard';
 import SearchBar from './components/Search';
 import SearchResult from './components/SearchResult';
+import ProductCard from './components/ProductCard';
 
 function App() {
   
@@ -29,6 +30,7 @@ function App() {
   const [generalViewOn, setGeneralViewOn] = useState(true);
   const [productBeingViewed, setProductBeingViewed] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [productToBeAdded, setProductToBeAdded] = useState({});
 
   useEffect(() => {
     Promise.all([
@@ -63,6 +65,8 @@ function App() {
         <Route path='/homegoods' element={<CategoryProductsCard products={productsArray} category={"Homegoods"} /> }></Route>
         <Route path='/topdeals' element={<TopDeals products={productsArray} /> }></Route>
         <Route path='/search' element={<SearchResult products={productsArray} searchTerm={searchTerm}/>} />
+        <Route path='/cart' element={<div>"Cart"</div>}></Route>
+        <Route path='/add_to_cart' element={<ProductCard products={products} />}></Route>
 
         
       </Routes>

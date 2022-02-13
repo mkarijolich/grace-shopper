@@ -1,8 +1,7 @@
-import { Button, Container, Fade, Paper, Popper } from "@mui/material";
+import { Button, Container, Grid, Paper } from "@mui/material";
 import React, { useState } from "react";
+import EditProductForm from "./EditProductForm";
 import ProductList from "./ProductList";
-import EditProductForm from "./EditProductForm"; 
-
 
 const AdminProductsDashboard = (props) => {
   const { products } = props;
@@ -27,20 +26,23 @@ const AdminProductsDashboard = (props) => {
   return (
     <Container>
 
-        <Paper>
-            <Button
-                type="submit"
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                onClick={handleClickCreateProduct}
-            >
-            Create Product
-            </Button>
+        <Paper sx={{p:3}}>
 
+        <h2>Products</h2>
+
+        <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={handleClickCreateProduct}
+        >
+        Create Product
+        </Button>
+
+        <ProductList products={products} setOpenEditProductForm={setOpen} setEditableProduct={setEditableProduct} setEditProductFormAnchorEl={setAnchorEl}/>
 
         </Paper>
 
-        <ProductList products={products} open/>
 
         <EditProductForm 
             open={open} 

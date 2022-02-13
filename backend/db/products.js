@@ -40,9 +40,9 @@ async function createProduct({ name, detail, category, price, linksArray }){
             console.log("Creating product successful. Adding href links for pictures: ", linksArray);
             const links = await Promise.all(linksArray.map((item) => addPictureLinksToProduct(item, product.id)));
 
-            product.links = links;
+            product.pictureLinks = links;
         } else{
-            product.links = null;
+            product.pictureLinks = [];
         }
 
         return product;
@@ -159,6 +159,22 @@ async function deleteProduct( id ){
     }
 }
 
+async function alterQuantity( id, num ){
+    console.log('Purchasing product with ID: ', id);
+    try{
+        const currentProduct = await getProductsById(id);
+        const quantRemaining = currentProduct.quantity - num;
+        const{ rows: [ product ] } = await client.query(`
+            UPDATE products
+            SET quantity=$1
+            WHERE id=$2
+            RETURNING *
+        `, [ quantRemaining, id ]);
+    } catch(error){
+        throw error;
+    }
+}
+
 module.exports = {
     createProduct,
     getProductByCategory,
@@ -167,5 +183,6 @@ module.exports = {
     getAllProducts,
     updateProduct,
     addPictureLinksToProduct,
-    deleteProduct
+    deleteProduct,
+    alterQuantity
 }

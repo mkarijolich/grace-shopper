@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Container, Box, Typography, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-
-import EditProfile from "./EditProfile";
-import AddressList from "./AddressList";
+import { Box, Tab } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { getAllAddresses } from "../api";
+import { getOrdersByUserId } from "../api/index";
+import AddressList from "./AddressList";
 import BasicDetails from "./BasicDetails";
 import OrderList from "./OrderList";
-import { getOrdersByUserId } from "../api/index";
+
 
 
 const MyAccount = (props) => {

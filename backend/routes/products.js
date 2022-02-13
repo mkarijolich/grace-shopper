@@ -12,6 +12,8 @@ const { createProduct,
 const { getProductPicturesById,
     getAllProductPictures } = require("../db/products_pictures");
 
+const requireAdmin = require("./middleware/requireAdmin")
+
     
 // Get list of all products
 productsRouter.get('/', async(req, res) => {
@@ -64,14 +66,11 @@ productsRouter.get('/category/:category', async (req, res) => {
         throw error;
     }
 });
-productsRouter.post('/', async(req, res) => {
+
+productsRouter.post('/', requireAdmin, async(req, res, next) => {
     const { name, detail, category, price, linksArray } = req.body;
     try{
-        const product = await createProduct({ name, detail, category, price });
-        const pictures = linksArray.map((element) => {
-             addPictureLinksToProduct( element, product.id);
-        });
-        product.pictureLinks = pictures;
+        const product = await createProduct({ name, detail, category, price, linksArray });
         res.send( { product } );
     } catch(error){
         console.error(error);
@@ -80,17 +79,17 @@ productsRouter.post('/', async(req, res) => {
 });
 
 
-productsRouter.patch('/:productId',requireUser,async(req,res,next) => {
+productsRouter.patch('/:productId', requireAdmin, async(req,res,next) => {
 
-    const { id } = req.params.productId;
+    const id = req.params.productId;
 
     const { name, detail, category, price, linksArray } = req.body;
     try{
         const product = await updateProduct( { id, name, detail, category, price, linksArray } );
+        res.send( { product } );
     } catch(error){
         console.error(error);
     }
-    res.send( { product } );
 })
 
 

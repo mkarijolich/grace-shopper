@@ -31,6 +31,10 @@ apiRouter.use('/admin',adminRouter);
 const cartRouter = require('./cart');
 apiRouter.use('/cart', cartRouter);
 
+const addToCartRouter = require('./addToCartRouter');
+apiRouter.use('/addToCartRouter', addToCartRouter);
+
+
 apiRouter.use((error, req, res, next) => {
   const status = error.status ? error.status : 500
 

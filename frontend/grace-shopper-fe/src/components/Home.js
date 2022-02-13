@@ -1,7 +1,7 @@
+import { Container } from '@mui/material';
 import React from "react";
-import DashboardContent from "./DashboardContent";
 import CustomerHome from "./CustomerHome";
-import {Container, Typography } from '@mui/material';
+import DashboardContent from "./DashboardContent";
 
 
 const Home = (props) => {

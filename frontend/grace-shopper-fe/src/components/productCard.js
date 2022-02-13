@@ -12,10 +12,18 @@ import { red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import React, { useState } from "react";
+import { currencyFormat } from "../helpers/formats";
+import { useNavigate } from "react-router-dom";
+import AddToCart from './AddToCart';
 
 
 const ProductCard = (props) => {
-  const { product } = props;
+  const { product,
+    setOpenAddToCart,
+    setProductToAddToCart,
+    setAnchorEl } = props;
+
+  const navigate = useNavigate();
 
   const { expand, ...other } = props.product;
   
@@ -31,12 +39,19 @@ const ProductCard = (props) => {
   }));
 
 
-
   const [expanded, setExpanded] = useState(false);
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleAddToCartClick = (e) => {
+    e.preventDefault();
+    setAnchorEl(e.currentTarget);
+    setProductToAddToCart(product);
+    setOpenAddToCart(true);
+  }
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -46,7 +61,7 @@ const ProductCard = (props) => {
             R
           </Avatar>
         }
-        action={product.price}
+        action={currencyFormat(product.price)}
         title={product.name}
         subheader=""
       />
@@ -59,7 +74,7 @@ const ProductCard = (props) => {
 
       <CardActions disableSpacing>
         <IconButton aria-label="add to cart">
-          <AddShoppingCartIcon />
+          <AddShoppingCartIcon onClick={handleAddToCartClick}/>
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -76,6 +91,7 @@ const ProductCard = (props) => {
           <Typography paragraph>{product.detail}</Typography>
         </CardContent>
       </Collapse>
+
     </Card>
   );
 };

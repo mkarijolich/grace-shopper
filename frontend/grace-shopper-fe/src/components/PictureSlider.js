@@ -3,6 +3,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import Carousel from 'react-material-ui-carousel';
+import { currencyFormat } from "../helpers/formats";
 
 
 const PictureSlider = (props) => {
@@ -22,6 +23,7 @@ const PictureSlider = (props) => {
             getFeaturedProducts(products).map(product => { return (
                 <Paper key={product.id}>
                     <h2 style={{position: "absolute"}} > {product.name } </h2>
+                    <h2 style={{position: "relative"}}> {currencyFormat(product.price) } </h2>
                     <div  style={{ 
                       height: "300px", 
                       backgroundImage: "url(" + product.pictureLinks[0] + ")",  

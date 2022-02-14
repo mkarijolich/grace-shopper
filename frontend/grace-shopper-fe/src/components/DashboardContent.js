@@ -1,17 +1,18 @@
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useEffect } from "react";
 import { fetchAllOrders, fetchAllProducts } from "../api/index";
 import AdminProductsDashboard from "./AdminProductsDashboard";
 import OrderList from "./OrderList";
 import UserList from "./UserList";
+import { Tab } from "@mui/material";
 
 const mdTheme = createTheme();
 
@@ -20,6 +21,7 @@ function DashboardContent() {
   const [orders, setOrders] = React.useState([]);
   const [users, setUsers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
+  const [currentTab, setCurrentTab] = React.useState("products");
 
   useEffect(() => {
     Promise.all([fetchAllProducts()]).then(([productsFromAPI]) => {
@@ -33,64 +35,59 @@ function DashboardContent() {
     });
   }, []);
 
+  const handleTabChange = (event, newValue) => {
+    setCurrentTab(newValue);
+  };
+
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: "flex" }}>
         <CssBaseline />
 
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: "100vh",
-            overflow: "auto",
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Typography>Order List</Typography>
-            <Grid container spacing={3}>
-              {/* orderlist */}
+        <TabContext value={currentTab}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleTabChange}>
+              <Tab label="Products" value="products" />
+              <Tab label="Orders" value="orders" />
+              <Tab label="Users" value="users" />
+            </TabList>
+          </Box>
+        
+          <TabPanel value="products">
+            <Box component="form" noValidate sx={{height: 800}}>
+                <AdminProductsDashboard products={products} />
+            </Box>
+          </TabPanel>
 
-              <Grid item xs={12}>
-                <Paper
+          <TabPanel value="orders">
+            <Box component="form" noValidate>
+              <Paper
                   sx={{
-                    p: 2,
+                    p: 3,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    height: 800,
                   }}
                 >
                   <OrderList orders={orders} />
                 </Paper>
-              </Grid>
+            </Box>
+          </TabPanel>
 
-              {/* userlist */}
-              <Typography>User List</Typography>
-              <Grid item xs={12}>
-                <Paper
+          <TabPanel value="users">
+            <Box component="form" noValidate>
+              <Paper
                   sx={{
-                    p: 2,
+                    p: 3,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    height: 800,
                   }}
                 >
-                  <UserList users={users} />
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12}>
-                <AdminProductsDashboard products={products} />
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-      </Box>
+                <UserList users={users} />
+              </Paper>
+            </Box>
+          </TabPanel>
+        </TabContext>
     </ThemeProvider>
   );
 }

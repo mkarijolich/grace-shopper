@@ -1,26 +1,23 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import './App.css';
-
-import Home from "./components/Home"
-import Featured from "./components/Featured"
-import ProductWall from './components/ProductWall'
-import NavBar from './components/NavBar';
-import MyAccount from './components/Myaccount'
-import Login from "./components/Login";
-import Register from "./components/Register";
-import { loadTokenFromLocalStorage } from './helpers/tokenHelpers';
-import OrderDetail from './components/OrderDetail';
 import { fetchAllProducts } from "./api/index";
-import TopDeals from './components/TopDeals';
+import './App.css';
+import Cart from './components/Cart';
 import CategoryProductsCard from './components/CategoryProductsCard';
-import SearchBar from './components/Search';
+import Home from "./components/Home";
+import Login from "./components/Login";
+import MyAccount from './components/Myaccount';
+import NavBar from './components/NavBar';
+import OrderDetail from './components/OrderDetail';
+import ProductWall from './components/ProductWall';
+import Register from "./components/Register";
 import SearchResult from './components/SearchResult';
-import ProductCard from './components/ProductCard';
+import TopDeals from './components/TopDeals';
+import { loadTokenFromLocalStorage } from './helpers/tokenHelpers';
+
 
 function App() {
-  
   // Load login from cookie
   let userData = loadTokenFromLocalStorage();
 
@@ -30,7 +27,6 @@ function App() {
   const [generalViewOn, setGeneralViewOn] = useState(true);
   const [productBeingViewed, setProductBeingViewed] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-  const [productToBeAdded, setProductToBeAdded] = useState({});
 
   useEffect(() => {
     Promise.all([
@@ -62,13 +58,10 @@ function App() {
         <Route path='/grocery' element={<CategoryProductsCard products={productsArray} category={"Grocery"} /> }></Route>
         <Route path='/lighting' element={<CategoryProductsCard products={productsArray} category={"Lighting"} /> }></Route>
         <Route path='/pets' element={<CategoryProductsCard products={productsArray} category={"Pets"} /> }></Route>
-        <Route path='/homegoods' element={<CategoryProductsCard products={productsArray} category={"Homegoods"} /> }></Route>
+        <Route path='/homegoods' element={<CategoryProductsCard products={productsArray} category={"Home goods"} /> }></Route>
         <Route path='/topdeals' element={<TopDeals products={productsArray} /> }></Route>
         <Route path='/search' element={<SearchResult products={productsArray} searchTerm={searchTerm}/>} />
-        <Route path='/cart' element={<div>"Cart"</div>}></Route>
-        <Route path='/add_to_cart' element={<ProductCard products={products} />}></Route>
-
-        
+        <Route path='/cart' element={<Cart user={user} />}></Route>
       </Routes>
     </Router>
   );

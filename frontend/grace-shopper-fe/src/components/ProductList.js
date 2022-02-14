@@ -22,7 +22,7 @@ const ProductList = (props) => {
   }
 
   return (
-    <Box sx={{ height: 250, pl:"40px", pr:"40px"}}>
+    <Box sx={{ height: "100%", pl:"40px", pr:"40px"}}>
       {
         products ? 
             <DataGrid

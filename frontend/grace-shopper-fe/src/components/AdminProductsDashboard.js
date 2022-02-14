@@ -24,11 +24,7 @@ const AdminProductsDashboard = (props) => {
 
 
   return (
-    <Container>
-
-        <Paper sx={{p:3}}>
-
-        <h2>Products</h2>
+    <Paper sx={{p:3, pb:15, height:800}}>
 
         <Button
             type="submit"
@@ -41,16 +37,13 @@ const AdminProductsDashboard = (props) => {
 
         <ProductList products={products} setOpenEditProductForm={setOpen} setEditableProduct={setEditableProduct} setEditProductFormAnchorEl={setAnchorEl}/>
 
-        </Paper>
-
-
         <EditProductForm 
             open={open} 
             setOpen={setOpen} 
             product={editableProduct} 
             categories={getCategoriesFromProducts(products)}
             anchorEl={anchorEl} />
-    </Container>
+    </Paper>
   )
 };
 

@@ -8,24 +8,23 @@ const { getCartByUserId,
 
 
 // Need to ensure userId gets passed to here!
-cartRouter.get('/', async(req, res) => {
+cartRouter.get('/', requireUser, async(req, res) => {
     try{
         const cart = await getCartByUserId( req.user.id );
-        
-        res.send( { cart} );
-   
+        res.send( cart );
     } catch(error){
         throw error;
     }
-    
 });
 
 
-cartRouter.post('/', async(req, res) => {
-    const { userId, productId } = req.body;
+cartRouter.post('/', requireUser, async(req, res) => {
+    const userId = req.user.id; 
+    const { productId, quantity } = req.body;
+
     try{
-        await addToCart(req.body);
-        const cart = awaitCartByUserId( userId );
+        await addToCart({ userId, productId, quantity });
+        const cart = await getCartByUserId( userId );
         res.send( { cart } );
     } catch(error){
         console.error(error);
@@ -33,12 +32,15 @@ cartRouter.post('/', async(req, res) => {
     }
 });
 
+
 //here we need to see both the userId and a specific productId is specified
-cartRouter.delete('/:productId',requireUser,async(req,res,next) => {
-    const { userId, productId } = req.body;
+cartRouter.delete('/', requireUser, async(req,res,next) => {
+    const userId = req.user.id;
+    const { productId } = req.body;
+
     try{
         if( productId ){
-            await removeFromCart( req.body );
+            await removeFromCart( { userId, productId } );
         } else{
             await clearCart( userId );
         }
@@ -48,6 +50,5 @@ cartRouter.delete('/:productId',requireUser,async(req,res,next) => {
         throw error;
     }
 })
- 
 
 module.exports = cartRouter;

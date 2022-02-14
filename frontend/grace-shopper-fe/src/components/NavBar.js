@@ -15,6 +15,7 @@ import blue from "@material-ui/core/colors/green";
 
 const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
   const navigate = useNavigate();
+  const urlEnd = '/cart';
 
   return (
     <Container>
@@ -91,7 +92,9 @@ const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
                 </Button>
               </nav>
             )}
-            <Button>
+            <Button
+              href={urlEnd}
+            >
               <ShoppingCartIcon />
             </Button>
           </Toolbar>

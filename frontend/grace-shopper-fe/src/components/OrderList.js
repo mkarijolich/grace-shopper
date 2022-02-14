@@ -47,7 +47,7 @@ const OrderList = (props) => {
   };
 
   return (
-    <div style={{ height: 250, width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
       {orders ? (
         <DataGrid
           columns={[

@@ -1,54 +1,30 @@
-import { CardActionArea } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { fetchCartByUserId } from "../api/index";
+import ProductCardListInCart from './ProductCardListInCart';
+import { Container } from "@mui/material";
 
-import "./App.css";
 
-const ProductDisplay = () => (
-  <section>
-    <div className="product">
-      <img
-        src="https://i.imgur.com/EHyR2nP.png"
-        alt="The cover of Stubborn Attachments"
-      />
+const Cart = () => {
 
-      <div className="description">
-        <h3>Stubborn Attachments</h3>
-
-        <h5>$20.00</h5>
-      </div>
-    </div>
-
-    <form action="/create-checkout-session" method="POST">
-      <button type="submit">Checkout</button>
-    </form>
-  </section>
-);
-
-const Message = ({ message }) => (
-  <section>
-    <p>{message}</p>
-  </section>
-);
-
-export default function App() {
-  const [message, setMessage] = useState("");
+  const [cart, setCart] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
 
   useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
+    Promise.all([
+      fetchCartByUserId(),
+       //need to make a a getAllProductPictures function in api/index and integrate throughout backend
+    ]).then(([cartFromAPI]) => {
+      setCart(cartFromAPI.cart);
+      setCartTotal(cartFromAPI.total);
+    });
+  }, [setCart]);
 
-    const query = new URLSearchParams(window.location.search);
-
-    if (query.get("success")) {
-      setMessage("Order placed! You will receive an email confirmation.");
-    }
-
-    if (query.get("canceled")) {
-      setMessage(
-        "Order canceled -- continue to shop around and checkout when you're ready."
-      );
-    }
-  }, []);
-
-  return message ? <Message message={message} /> : <ProductDisplay />;
+ return (
+   <Container sx={{p: 5}}>
+    <h1> Cart </h1>
+    <ProductCardListInCart products={cart} total={cartTotal} setCart={setCart} setCartTotal={setCartTotal} />
+   </Container>
+ );
 }
 
+export default Cart;

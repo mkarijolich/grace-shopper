@@ -1,73 +1,13 @@
-// import { Button, Container, TextField } from "@mui/material";
-// import Card from "@mui/material/Card";
-// import CardActions from "@mui/material/CardActions";
-// import CardContent from "@mui/material/CardContent";
-// import CardHeader from "@mui/material/CardHeader";
-// import CardMedia from "@mui/material/CardMedia";
-// import React from "react";
-// import {ProductCard }from "./ProductCard";
-
-
-// const AddToCart = (props) => {
-//     const { products } = props;
-//     const { expand, ...other } = props.product;
-//     const handleOnClick = (quantity) => {
-//         console.log("Hello");
-//     }
-
-
-//     return (
-// <Container>
-//         {
-//             products ? products.map(product => {
-//                 return <ProductCard product={product} key={product.id}/>
-//             }) : null
-//         }
-
-//         </Container>
-//         // <Card sx={{ maxWidth: 690 }}>
-//         //     <CardHeader
-//         //         action={product.price}
-//         //         title={product.name}
-//         //         subheader=""
-//         //     />
-//         //     <CardMedia
-//         //         component="img"
-//         //         height="280"
-//         //         image={product.pictureLinks[0]}
-//         //         alt="Product"
-//         //     />
-//         //     <CardActions disableSpacing>
-//         //     </CardActions>
-//         //     <CardContent>
-//         //         <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
-//         //         <Button
-//         //                                 variant="outlined"
-//         //                                 onClick={handleOnClick()}
-//         //                                 sx={{ my: 1, mx: 1.5 }}>
-//         //                                 Register
-//         //                             </Button>
-//         //     </CardContent>
-//         // </Card>
-//     );
-// };
-// export default AddToCart;
-
-
-
-
-
-
-
 import {
-    Box,
-    Button,
-    Grid,
-    Paper,
-    Popper,
-    TextField
+  Box,
+  Button,
+  Grid,
+  Paper,
+  Popper,
+  TextField
 } from "@mui/material";
 import React, { useState } from "react";
+import { addToCart } from "../api";
 import { currencyFormat } from "../helpers/formats";
   
   const AddToCart = (props) => {
@@ -81,8 +21,11 @@ import { currencyFormat } from "../helpers/formats";
       setOpen(false);
     };
   
-    const handleAdd = (e) => {
-      console.log("Adding to cart.")
+    const handleAdd = async (e) => {
+      e.preventDefault();
+      await addToCart(product.id, quantity);
+      setQuantity(1);
+      setOpen(false);
     };
   
     return (

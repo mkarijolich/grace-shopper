@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ProductList from "./ProductList";
+import { Paper } from "@mui/material";
 
 
 import { getOrderByOrderId } from "../api/index";
@@ -32,7 +33,10 @@ const OrderDetail = () => {
         
         {
             order ?
-            <ProductList products={order.products} />
+            <Paper sx={{height: 600}}>
+              <ProductList products={order.products} />
+            </Paper>
+            
             : undefined
         }
         

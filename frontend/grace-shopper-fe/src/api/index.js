@@ -1,6 +1,7 @@
 import { loadTokenFromLocalStorage } from "../helpers/tokenHelpers";
 
-export const BASE_URL = "https://grace-shopper-2022.herokuapp.com/api";
+export const BASE_URL = "http://localhost:4000/api"
+// export const BASE_URL = "https://grace-shopper-2022.herokuapp.com/api";
 
 const getHeaders = () => {
   const { token } = loadTokenFromLocalStorage();
@@ -355,3 +356,70 @@ export const changeProduct = async (id, name, detail, category, price, linksArra
     throw error;
   }
 }
+
+export const destroyCartProduct = async ( productId ) => {
+  try {
+    const response = await fetch(`${BASE_URL}/cart`, {
+      method: "DELETE",
+      headers: getHeaders(),
+      body: JSON.stringify({
+        productId
+      })
+    })
+    const result = await response.json()
+    return result;
+  } catch (error) {
+    console.log("An error occurred while trying to remove from cart")
+    throw error
+  }
+}
+
+export const checkout = async () => {
+  const { id } = loadTokenFromLocalStorage();
+
+  try {
+    const response = await fetch(`${BASE_URL}/create-checkout-session`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({
+        userId: id
+      })
+    })
+    return await response.json();
+  } catch (error) {
+    console.log("An error occurred while trying to add a product to the cart.")
+    throw error
+  }
+};
+
+export const fetchCartByUserId = async () => {
+
+  try {
+    const response = await fetch(`${BASE_URL}/cart`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log("An error occurred while fetching the cart.");
+    throw error;
+  }
+}
+
+export const addToCart = async ( productId, quantity ) => {
+  try {
+    const response = await fetch(`${BASE_URL}/cart`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({
+        productId,
+        quantity
+      })
+    })
+    return await response.json();
+  } catch (error) {
+    console.log("An error occurred while trying to add a product to the cart.")
+    throw error
+  }
+};

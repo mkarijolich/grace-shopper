@@ -73,8 +73,8 @@ const ProductCard = (props) => {
       />
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to cart">
-          <AddShoppingCartIcon onClick={handleAddToCartClick}/>
+        <IconButton aria-label="add to cart" onClick={handleAddToCartClick}>
+          <AddShoppingCartIcon/>
         </IconButton>
         <ExpandMore
           expand={expanded}

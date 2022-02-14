@@ -19,17 +19,55 @@ server.use(cors())
 // handle application/json requests
 server.use(express.json());
 
-// here's our static files
-const path = require('path');
-server.use(express.static(path.join(__dirname, 'build')));
+server.post("/checkout", async (req,res) => {
+  console.log("Request to stripe: ". req.body);
+
+  let error;
+  let status;
+  try{
+    const { product, token } = req.body;
+
+    const customer = await
+    stripe.customers.create({
+      email: token.email,
+      source: token.id
+    });
+
+    const idempotency_key = uuid();
+    const charge = await
+      stripe.charges.create({
+        amount: total * 100,
+        currency: "usd",
+        customer: customer.id,
+        receipt_email: token.email,
+        description: 'Test purchase',
+        shipping: {
+          name: token.card.name,
+          address: {
+            line1: token.card.address_line1,
+            line2: token.card.address_line2,
+            city: token.card.address_city,
+            country: token.card.address_country,
+            postal_code: token.card.addess_zip
+          }
+        }
+      },
+      { 
+        idempotency_key 
+      }
+      );
+  } catch(error){
+    console.error("Error", error);
+    status="failure";
+  }
+
+  res.json({ error, status })
+
+});
 
 // here's our API
 server.use('/api', require('./routes'));
 
-// by default serve up the react app if we don't recognize the route
-server.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
-});
 
 // bring in the DB connection
 const client = require('./db/client');

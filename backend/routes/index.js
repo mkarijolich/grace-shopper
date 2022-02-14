@@ -8,6 +8,7 @@ const apiRouter = require('express').Router();
 
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET  = 'nevertell' } = process.env;
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const userMiddleware = require('./middleware/userMiddleware')
 apiRouter.use(userMiddleware);
@@ -31,8 +32,28 @@ apiRouter.use('/admin',adminRouter);
 const cartRouter = require('./cart');
 apiRouter.use('/cart', cartRouter);
 
-const addToCartRouter = require('./addToCartRouter');
-apiRouter.use('/addToCartRouter', addToCartRouter);
+
+apiRouter.post('/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'T-shirt',
+          },
+          unit_amount: 2000,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: 'https://example.com/success',
+    cancel_url: 'https://example.com/cancel',
+  });
+
+  res.redirect(303, session.url);
+});
 
 
 apiRouter.use((error, req, res, next) => {

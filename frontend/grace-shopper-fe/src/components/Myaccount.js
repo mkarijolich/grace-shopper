@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { getAllAddresses } from "../api";
 import { getOrdersByUserId } from "../api/index";
 import AddressList from "./AddressList";
-import BasicDetails from "./BasicDetails";
+import BasicDetails from "./basicDetails";
 import OrderList from "./OrderList";
 
 

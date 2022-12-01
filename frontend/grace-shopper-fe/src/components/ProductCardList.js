@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import React, { useState } from "react";
 import AddToCart from "./AddToCart";
-import ProductCard from "./ProductCard";
+import ProductCard from "./productCard";
 
 const ProductCardList = (props) => {
 

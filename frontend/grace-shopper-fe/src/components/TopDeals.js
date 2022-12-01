@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./productCard";
 
 
 const TopDeals = (props) => {

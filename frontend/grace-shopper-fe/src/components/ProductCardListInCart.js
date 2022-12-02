@@ -5,21 +5,14 @@ import axios from "axios";
 import React from "react";
 import StripeCheckout from "react-stripe-checkout";
 import ProductCardInCart from "./ProductCardInCart";
+import { handleStripeToken } from "../api";
 
 const ProductCardListInCart = (props) => {
   const { products, total, setCart, setCartTotal } = props;
 
 
   async function handleToken(token) {
-    const response = await axios.post("https:localhost:4000/checkout", {
-      token,
-      total,
-    });
-
-    const { status } = response.data;
-    if (status === "success") {
-      console.log("success");
-    }
+    return handleStripeToken(token, total);
   }
 
   return (

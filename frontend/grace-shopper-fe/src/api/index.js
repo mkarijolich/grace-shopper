@@ -1,6 +1,7 @@
 import { loadTokenFromLocalStorage } from "../helpers/tokenHelpers";
+import axios from "axios";
 
-export const BASE_URL = process.env.API_HOST || "http://localhost:4000/api";
+export const BASE_URL = process.env.API_HOST;
 
 const getHeaders = () => {
   const { token } = loadTokenFromLocalStorage();
@@ -30,6 +31,18 @@ export const register = async (username, password, email) => {
     console.log("An error occurred while trying to register a new user.");
   }
 };
+
+export const handleStripeToken = async(token, total) => {
+  const response = await axios.post(`{BASE_URL}/checkout`, {
+    token,
+    total,
+  });
+
+  const { status } = response.data;
+  if (status === "success") {
+    console.log("Checked out!");
+  }
+}
 
 export const login = async (username, password) => {
   try {

@@ -11,7 +11,6 @@ import SearchBar from "./Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
-import blue from "@material-ui/core/colors/green";
 
 const NavBar = ({ user, handleLogout, products, orders, setSearchTerm }) => {
   const navigate = useNavigate();

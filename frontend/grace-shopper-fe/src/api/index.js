@@ -1,7 +1,7 @@
 import { loadTokenFromLocalStorage } from "../helpers/tokenHelpers";
 import axios from "axios";
 
-export const BASE_URL = process.env.API_HOST;
+export const BASE_URL = "https://grace-shopper-backend.onrender.com/api";
 
 const getHeaders = () => {
   const { token } = loadTokenFromLocalStorage();

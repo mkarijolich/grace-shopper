@@ -1,7 +1,6 @@
 import { loadTokenFromLocalStorage } from "../helpers/tokenHelpers";
 
-export const BASE_URL = "http://localhost:4000/api"
-// export const BASE_URL = "https://grace-shopper-2022.herokuapp.com/api";
+export const BASE_URL = process.env.API_HOST || "http://localhost:4000/api";
 
 const getHeaders = () => {
   const { token } = loadTokenFromLocalStorage();
